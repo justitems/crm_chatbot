@@ -17,7 +17,7 @@ namespace CmsBase\User\Apps\Collection\Crm_chatbot;
 // Define the constants
 defined('BASEPATH') OR exit('No direct script access allowed');
 defined('CMS_BASE_USER_APPS_CRM_CHATBOT') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT', CMS_BASE_USER . 'apps/collection/crm_chatbot/');
-defined('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION', '0.0.13');
+defined('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION', '0.0.1');
 
 // Define the namespaces to use
 use CmsBase\User\Interfaces as CmsBaseUserInterfaces;
