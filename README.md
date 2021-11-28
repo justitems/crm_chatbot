@@ -1,10 +1,6 @@
-# crm_chatbot
-
 <h2>CRM Chatbot</h2>
 
 <p><strong>This app could be installed only in the Midrub CMS version 0.0.8.5+. In older versions it will break anything.</strong></p>
-
-<p><iframe frameborder="0" src="//www.youtube.com/embed/3EOCRJNkezg" width="640" height="360" class="note-video-clip"></iframe></p>
 
 <br>
 
