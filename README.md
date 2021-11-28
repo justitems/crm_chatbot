@@ -4,6 +4,10 @@
 
 <br>
 
+<p>DEMO VIDEO: https://youtu.be/3EOCRJNkezg</p>
+
+<br>
+
 <h4>Introduction</h4>
 
 <p>CRM Chatbot is the most advanced chat solution for websites. It is free and open source. Will be available as soon will be released the CRM. This app has a lot of features and could be used in both manual mode(to provide support) and automatic mode. It could be used even as website's assistant by monitoring automatically the visitors actions in a website and providing automatic support.</p>
