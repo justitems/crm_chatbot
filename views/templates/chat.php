@@ -65,7 +65,7 @@
                     </div>
                     <?php } ?> 
                 </div>
-                <?php if ( the_crm_chatbot_websites_meta($website_id, 'gdrp') ) { ?>
+                <?php if ( the_crm_chatbot_websites_meta($website_id, 'gdrp') && empty($accept_gdrp) ) { ?>
                 <div class="crm-chatbot-chat-gdrp">
                     <div class="row">
                         <div class="col-12">

@@ -758,7 +758,7 @@ class Csv {
 
         // Set limit
         $limit = array(
-            'order' =>  array('crm_chatbot_websites_guests.created', 'DESC'),
+            'order_by' =>  array('crm_chatbot_websites_guests.created', 'DESC'),
         );
 
         // Get the guests guests

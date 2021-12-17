@@ -171,7 +171,10 @@ class Newest {
             $where,
             $where_in,
             $like,
-            $join
+            $join,
+            array(
+                'order_by' => array('crm_chatbot_websites_threads.updated', 'DESC')
+            )
         );
 
         // Verify if the threads exists

@@ -67,6 +67,8 @@ class Chat {
         // Verify if get_chatbot parameter exists
         if ( $this->CI->input->get('get_chatbox', TRUE) ) {
 
+            header('Access-Control-Allow-Origin: *');
+
             // Load chat's box
             $this->get_code();
 
@@ -91,6 +93,8 @@ class Chat {
             $this->get_messages(); 
 
         } else if ( $this->CI->input->get('get_updates', TRUE) ) {
+
+            header('Access-Control-Allow-Origin: *');
             
             // Get the updates
             $this->get_updates(); 
@@ -99,6 +103,11 @@ class Chat {
 
             // Save guest data
             $this->save_guest_data(); 
+
+        } else if ( $this->CI->input->get('accept_gdrp', TRUE) ) {
+
+            // Save gdrp option
+            $this->accept_gdrp(); 
 
         }
         
@@ -446,6 +455,197 @@ class Chat {
             }
 
         }
+        
+    }
+
+    /**
+     * The public method accept_gdrp saves gdrp option
+     * 
+     * @since 0.0.8.5
+     * 
+     * @return void
+     */
+    public function accept_gdrp() {
+
+        // Check if data was submitted
+        if ($this->CI->input->post() && is_numeric($this->CI->input->get('accept_gdrp', TRUE))) {
+
+            // Add form validation
+            $this->CI->form_validation->set_rules('guest', 'Guest', 'trim|required');
+
+            // Get data
+            $guest = $this->CI->input->post('guest', TRUE);
+
+            // Verify if the submitted data is correct
+            if ( $this->CI->form_validation->run() !== false ) {
+
+                // Require the Website Functions Inc file
+                require_once CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/website_functions.php';
+
+                // Get the website
+                $the_website = $this->CI->base_model->the_data_where(
+                    'crm_chatbot_websites',
+                    '*',
+                    array(
+                        'website_id' => $this->CI->input->get('accept_gdrp', TRUE)
+                    )
+                );
+
+                // Verify if the website exists
+                if ( $the_website ) { 
+                    
+                    // Get the guest
+                    $the_guest = $this->CI->base_model->the_data_where(
+                        'crm_chatbot_websites_guests',
+                        '*',
+                        array(
+                            'id' => $guest
+                        )
+                    );
+
+                    // Verify if guest exists
+                    if ( $the_guest ) {
+
+                        // Accept gdrp
+                        if ( update_crm_chatbot_websites_guests_meta($the_guest[0]['guest_id'], 'accept_gdrp', 1) ) {
+
+                            // Prepare the success response
+                            $data = array(
+                                'success' => TRUE
+                            );
+
+                            // Display the success response
+                            echo json_encode($data); 
+                            exit();
+
+                        }
+
+                    } else {
+
+                        // Guest params
+                        $guest_params = array(
+                            'user_id' => $the_website[0]['user_id'],
+                            'id' => $guest,
+                            'created' => time()
+                        );
+
+                        // Save guest
+                        $guest_id = $this->CI->base_model->insert('crm_chatbot_websites_guests', $guest_params);
+
+                        // Verify if the guest was saved
+                        if ( $guest_id ) {
+
+                            // Save the guest's IP
+                            update_crm_chatbot_websites_guests_meta($guest_id, 'guest_ip', $this->CI->input->ip_address());
+
+                            // Verify if the timezone exists
+                            if ( !empty($params['timezone']) ) {
+
+                                // Verify if the timezone is valid
+                                if ( in_array($params['timezone'], timezone_identifiers_list()) ) {
+
+                                    // Save the guest's timezone
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_timezone', $params['timezone']);                    
+
+                                }
+
+                            }
+
+                            // Verify if the ip2location is enabled
+                            if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
+
+                                // Verify if api key exists
+                                if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
+
+                                    // Get guest information
+                                    $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $this->CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
+
+                                    // Verify if response key exists
+                                    if ( !empty($the_guest_info['response']) ) {
+
+                                        // Verify if response value is OK
+                                        if ( $the_guest_info['response'] === 'OK' ) {
+
+                                            // Verify if latitude exists
+                                            if ( !empty($the_guest_info['latitude']) ) {
+
+                                                // Save the latitude
+                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude', $the_guest_info['latitude']); 
+
+                                            }
+
+                                            // Verify if longitude exists
+                                            if ( !empty($the_guest_info['longitude']) ) {
+
+                                                // Save the longitude
+                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude', $the_guest_info['longitude']); 
+
+                                            }
+                                            
+                                            // Verify if country code exists
+                                            if ( !empty($the_guest_info['country_code']) ) {
+
+                                                // Save the country code
+                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_code', $the_guest_info['country_code']); 
+
+                                            }
+                                            
+                                            // Verify if country name exists
+                                            if ( !empty($the_guest_info['country_name']) ) {
+
+                                                // Save the country name
+                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_name', $the_guest_info['country_name']); 
+
+                                            }
+                                            
+                                            // Verify if city name exists
+                                            if ( !empty($the_guest_info['city_name']) ) {
+
+                                                // Save the city name
+                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_city_name', $the_guest_info['city_name']); 
+
+                                            }                             
+
+                                        }
+
+                                    }
+
+                                }
+
+                            }
+
+                            // Accept gdrp
+                            if ( update_crm_chatbot_websites_guests_meta($guest_id, 'accept_gdrp', 1) ) {
+
+                                // Prepare the success response
+                                $data = array(
+                                    'success' => TRUE
+                                );
+
+                                // Display the success response
+                                echo json_encode($data); 
+                                exit();
+
+                            }
+                            
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        // Prepare the false response
+        $data = array(
+            'success' => FALSE,
+            'message' => $this->CI->lang->line('crm_chatbot_an_error_occurred')
+        );
+
+        // Display the false response
+        echo json_encode($data); 
         
     }
 

@@ -199,6 +199,7 @@ class Default_style implements CmsBaseUserAppsCollectionCrm_chatbotInterfaces\St
                         . 'position: fixed !important;'
                         . 'right: 20px !important;'
                         . 'bottom: 20px !important;'
+                        . 'z-index: 9999;'
                     . '}'                       
                     . '.crm-chatbot-chat-style-top .crm-chatbot-chat-style-welcome-message {'
                         . 'position: absolute !important;'

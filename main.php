@@ -17,7 +17,7 @@ namespace CmsBase\User\Apps\Collection\Crm_chatbot;
 // Define the constants
 defined('BASEPATH') OR exit('No direct script access allowed');
 defined('CMS_BASE_USER_APPS_CRM_CHATBOT') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT', CMS_BASE_USER . 'apps/collection/crm_chatbot/');
-defined('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION', '0.0.1');
+defined('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION', '0.0.2');
 
 // Define the namespaces to use
 use CmsBase\User\Interfaces as CmsBaseUserInterfaces;
@@ -59,7 +59,7 @@ class Main implements CmsBaseUserInterfaces\Apps {
      */
     public function check_availability() {
 
-        if ( !md_the_option('app_crm_chatbot_enabled') || !md_the_plan_feature('app_crm_chatbot_enabled') || !md_the_team_role_permission('crm_chatbot') ) {
+        if ( !md_the_option('app_crm_chatbot_enabled') || !md_the_plan_feature('app_crm_chatbot_enabled') || !md_the_team_role_permission('crm_chatbot') || !the_crm_apps_installed_app('crm_chatbot') ) {
             return false;
         } else {
             return true;
@@ -77,7 +77,7 @@ class Main implements CmsBaseUserInterfaces\Apps {
     public function user() {
 
         // Verify if the app is enabled
-        if ( !md_the_option('app_crm_chatbot_enabled') || !md_the_plan_feature('app_crm_chatbot_enabled') || !md_the_team_role_permission('crm_chatbot') ) {
+        if ( !md_the_option('app_crm_chatbot_enabled') || !md_the_plan_feature('app_crm_chatbot_enabled') || !md_the_team_role_permission('crm_chatbot') || !the_crm_apps_installed_app('crm_chatbot') ) {
             show_404();
         }
 
@@ -96,7 +96,7 @@ class Main implements CmsBaseUserInterfaces\Apps {
     public function ajax() {
 
         // Verify if the app is enabled
-        if ( !md_the_option('app_crm_chatbot_enabled') || !md_the_plan_feature('app_crm_chatbot_enabled') || !md_the_team_role_permission('crm_chatbot') ) {
+        if ( !md_the_option('app_crm_chatbot_enabled') || !md_the_plan_feature('app_crm_chatbot_enabled') || !md_the_team_role_permission('crm_chatbot') || !the_crm_apps_installed_app('crm_chatbot') ) {
             show_404();
         }        
         

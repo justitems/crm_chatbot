@@ -28,7 +28,7 @@ if ( !function_exists('crm_chatbot_get_chat_from_parts') ) {
         $CI =& get_instance();
 
         // Verify if get_chat parameter exists
-        if ( is_numeric($CI->input->get('get_chat', TRUE)) ) {
+        if ( is_numeric($CI->input->get('get_chat', TRUE)) && $CI->input->get('guest', TRUE) ) {
 
             // Get the website
             $the_website = $CI->base_model->the_data_where(
@@ -88,14 +88,6 @@ if ( !function_exists('crm_chatbot_get_chat_from_parts') ) {
                 // Register the website session
                 $CI->session->set_userdata('crm_chatbot_website_session', $CI->input->get('get_chat', TRUE));
 
-                // Verify if the guest session already exists
-                if ( !$CI->session->userdata('crm_chatbot_guest_session') ) {
-
-                    // Create the quest session
-                    $CI->session->set_userdata('crm_chatbot_guest_session', uniqid(microtime(true).mt_Rand()));
-
-                }
-
                 // Verify if a message should be sent
                 if ( is_numeric($CI->input->get('trigger', TRUE)) && ($CI->input->get('trigger_parent', TRUE) === 'send_message') && ($CI->input->get('trigger_name', TRUE) === 'message') ) {
 
@@ -120,10 +112,10 @@ if ( !function_exists('crm_chatbot_get_chat_from_parts') ) {
                 );
 
                 // Verify if the cache exists for this query
-                if ( md_the_cache('crm_chatbot_user_' . $the_website[0]['user_id'] . '_website_guest_' . $CI->session->userdata('crm_chatbot_guest_session')) ) {
+                if ( md_the_cache('crm_chatbot_user_' . $the_website[0]['user_id'] . '_website_guest_' . $CI->input->get('guest', TRUE)) ) {
 
                     // Set the cache
-                    $the_guest = md_the_cache('crm_chatbot_user_' . $the_website[0]['user_id'] . '_website_guest_' . $CI->session->userdata('crm_chatbot_guest_session'));
+                    $the_guest = md_the_cache('crm_chatbot_user_' . $the_website[0]['user_id'] . '_website_guest_' . $CI->input->get('guest', TRUE));
 
                 } else {
 
@@ -133,15 +125,15 @@ if ( !function_exists('crm_chatbot_get_chat_from_parts') ) {
                         '*',
                         array(
                             'user_id' => $the_website[0]['user_id'],
-                            'id' => $CI->session->userdata('crm_chatbot_guest_session')
+                            'id' => $CI->input->get('guest', TRUE)
                         )
                     );
 
                     // Save cache
-                    md_create_cache('crm_chatbot_user_' . $the_website[0]['user_id'] . '_website_guest_' . $CI->session->userdata('crm_chatbot_guest_session'), $the_guest);
+                    md_create_cache('crm_chatbot_user_' . $the_website[0]['user_id'] . '_website_guest_' . $CI->input->get('guest', TRUE), $the_guest);
 
                     // Set saved cronology
-                    update_crm_cache_cronology_for_user($the_website[0]['user_id'], 'crm_chatbot_websites_list', 'crm_chatbot_user_' . $the_website[0]['user_id'] . '_website_guest_' . $CI->session->userdata('crm_chatbot_guest_session'));
+                    update_crm_cache_cronology_for_user($the_website[0]['user_id'], 'crm_chatbot_websites_list', 'crm_chatbot_user_' . $the_website[0]['user_id'] . '_website_guest_' . $CI->input->get('guest', TRUE));
 
                 }
 
@@ -153,6 +145,14 @@ if ( !function_exists('crm_chatbot_get_chat_from_parts') ) {
 
                         // Set guest data
                         $views_params['guest_data'] = 1;
+
+                    }
+
+                    // Verify if the gdrp is approved
+                    if ( the_crm_chatbot_websites_guests_meta($the_guest[0]['guest_id'], 'accept_gdrp') ) {
+
+                        // Set gdrp
+                        $views_params['accept_gdrp'] = 1;
 
                     }
 

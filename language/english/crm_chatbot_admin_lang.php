@@ -16,3 +16,13 @@ $lang["crm_chatbot_enter_allowed_websites"] = "Enter the number of allowed websi
 $lang["crm_chatbot_allowed_automatic_replies"] = "Allowed Automatic Replies";
 $lang["crm_chatbot_allowed_automatic_replies_description"] = "The number of allowed automatic chat replies for this plan.";
 $lang["crm_chatbot_enter_allowed_automatic_replies"] = "Enter the number of allowed automatic chat replies ...";
+$lang["crm_chatbot_enable_ip2location"] = "Enable IP2Location";
+$lang["crm_chatbot_enable_ip2location_description"] = "Will be used the IP2Location Api to get the guest's information by IP.";
+$lang["crm_chatbot_ip2location_api_key"] = "IP2Location Api Key";
+$lang["crm_chatbot_ip2location_api_key_description"] = "Sign Up here <a href='https://www.ip2location.com/' target='_blank'>https://www.ip2location.com/</a> and enter the api key received by email.";
+$lang["crm_chatbot_enter_ip2location_api_key"] = "Enter the api key ...";
+$lang["crm_chatbot_enable_google_map"] = "Enable Google Map";
+$lang["crm_chatbot_enable_google_map_description"] = "Will be used the Google Map Api to show location on the map.";
+$lang["crm_chatbot_google_map_api_key"] = "Google Map Api Key";
+$lang["crm_chatbot_google_map_api_key_description"] = "Sign In here <a href='https://console.developers.google.com/' target='_blank'>https://console.developers.google.com/</a> and copy the api key.";
+$lang["crm_chatbot_enter_google_map_api_key"] = "Enter the api key ...";

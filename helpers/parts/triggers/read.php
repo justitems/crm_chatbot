@@ -143,7 +143,7 @@ class Read {
 
         // Set limit
         $limit = array(
-            'order' =>  array('trigger_id', 'DESC'),
+            'order_by' =>  array('trigger_id', 'DESC'),
         );
 
         // Verify if start exists

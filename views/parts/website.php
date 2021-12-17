@@ -14,7 +14,7 @@
                                 <?php echo $website['domain']; ?>
                             </span>
                         </li>
-                        <li class="breadcrumb-item crm-chatbot-website-actions" aria-current="page">
+                        <li class="breadcrumb-item crm-breadcrumb-actions" aria-current="page">
                             <div class="theme-checkbox-input-2">
                                 <input name="crm-chatbot-website-enable" type="checkbox" id="crm-chatbot-website-enable" class="crm-chatbot-website-enable"<?php echo $status?' checked':''; ?>>
                                 <label for="crm-chatbot-website-enable"></label>
@@ -31,7 +31,7 @@
             <div class="col-12">
                 <?php echo form_open('user/app/crm_chatbot', array('class' => 'crm-chatbot-update-website')) ?>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 theme-box-border-right">
                             <div class="card theme-box-1 theme-card-box-1">
                                 <div class="card-header">
                                     <div class="row">
@@ -108,7 +108,7 @@
                                     </div>
                                 </div>
                             </div>                            
-                            <div class="card theme-box-1 theme-card-box-1">
+                            <div class="mb-0 card theme-box-1 theme-card-box-1">
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col-12">
@@ -520,7 +520,7 @@
                                     </nav>
                                 </div>
                             </div>
-                            <div class="card theme-box-1 theme-card-box-1">
+                            <div class="card theme-box-1 theme-card-box-1 theme-card-list-with-tags">
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col-6">
@@ -575,7 +575,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12"> 
-                                            <div class="crm-chatbot-website-actions">
+                                            <div class="crm-breadcrumb-actions">
                                                 <button type="submit" class="btn btn-primary theme-background-green theme-button-1">
                                                     <?php echo md_the_user_icon(array('icon' => 'import')); ?>           
                                                     <?php echo $this->lang->line('crm_chatbot_save_changes'); ?>

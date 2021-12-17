@@ -160,7 +160,7 @@ class Read {
 
         // Set limit
         $limit = array(
-            'order' =>  array('crm_chatbot_emails.created', 'DESC'),
+            'order_by' =>  array('crm_chatbot_emails.created', 'DESC'),
         );
 
         // Verify if start exists

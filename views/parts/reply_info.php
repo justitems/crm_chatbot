@@ -1,6 +1,6 @@
 <div class="col-xl-10 col-lg-9 col-md-8 pt-3 crm-chatbot-reply-info">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6 theme-box-border-right">
             <div class="card theme-box-info">
                 <div class="card-body theme-box-1">
                     <div class="list-group">
@@ -62,7 +62,7 @@
                         <div class="tab-pane fade show active" id="crm-chatbot-list" role="tabpanel" aria-labelledby="crm-chatbot-list-tab">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="card card-list">
+                                    <div class="card card-list mb-0">
                                         <div class="card-header theme-search-box">
                                             <div class="row">
                                                 <div class="col-12">
@@ -71,7 +71,7 @@
                                                             <div class="col-12">
                                                                 <?php echo md_the_user_icon(array('icon' => 'search')); ?>
                                                                 <input type="text" class="form-control crm-chatbot-search-for-threads" id="crm-chatbot-search-for-threads" placeholder="<?php echo $this->lang->line('crm_chatbot_search_for_threads'); ?>" />
-                                                                <?php echo md_the_user_icon(array('icon' => 'loader')); ?>
+                                                                <?php echo md_the_user_icon(array('icon' => 'loader', 'class' => 'crm-search-icon-loader')); ?>
                                                                 <a href="#" class="crm-cancel-search">
                                                                     <?php echo md_the_user_icon(array('icon' => 'cancel')); ?>
                                                                 </a>

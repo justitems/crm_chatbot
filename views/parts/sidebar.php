@@ -42,7 +42,7 @@
                             <?php echo $this->lang->line('crm_chatbot_important'); ?>
                         </a>
                     </div>
-                    <?php echo !empty($important)?'<span class="crm-sidebar-label crm-chatbot-important-threads-notification">' . $important . ' ' . strtolower($this->lang->line('crm_chatbot_threads')) . '</span>':''; ?>
+                    <?php echo !empty($important)?'<span class="theme-sidebar-label crm-chatbot-important-threads-notification">' . $important . ' ' . strtolower($this->lang->line('crm_chatbot_threads')) . '</span>':''; ?>
                 </li> 
                 <li class="list-group-item d-flex justify-content-between lh-condensed mb-3<?php echo ($this->input->get('p', TRUE) === 'numbers')?' theme-sidebar-selected-item':''; ?>">
                     <div>

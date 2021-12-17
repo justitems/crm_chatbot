@@ -77,7 +77,7 @@ class Read {
 
         // Set limit
         $limit = array(
-            'order' =>  array('crm_chatbot_categories.category_id', 'DESC'),
+            'order_by' =>  array('crm_chatbot_categories.category_id', 'DESC'),
         );
 
         // Verify if start exists

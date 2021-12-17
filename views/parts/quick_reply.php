@@ -14,7 +14,7 @@
                                 <?php echo $reply['keywords']; ?>
                             </span>
                         </li>
-                        <li class="breadcrumb-item crm-chatbot-reply-actions" aria-current="page">
+                        <li class="breadcrumb-item crm-breadcrumb-actions" aria-current="page">
                             <div class="theme-checkbox-input-2">
                                 <input name="crm-chatbot-reply-enable" type="checkbox" id="crm-chatbot-reply-enable" class="crm-chatbot-reply-enable"<?php echo $status?' checked':''; ?>>
                                 <label for="crm-chatbot-reply-enable"></label>
@@ -29,9 +29,9 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <?php echo form_open('user/app/crm_chatbot', array('class' => 'crm-chatbot-update-quick-reply')) ?>
+                <?php echo form_open('user/app/crm_chatbot', array('class' => 'mb-3 crm-chatbot-update-quick-reply')) ?>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 theme-box-border-right">
                             <div class="card theme-card-box-1 theme-box-1">
                                 <div class="card-header">
                                     <div class="row">
@@ -128,7 +128,7 @@
                                     </div>                                                      
                                 </div>
                             </div>                
-                            <div class="card theme-card-box-1 theme-box-1">
+                            <div class="mb-0 card theme-card-box-1 theme-box-1">
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col-12">

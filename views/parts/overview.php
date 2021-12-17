@@ -48,7 +48,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-8">
+                                        <div class="col-md-8 theme-box-border-right">
                                             <div class="card card-guests-stats mb-3 theme-card-box-1 theme-box-1">
                                                 <div class="card-header">
                                                     <div class="row">
@@ -84,7 +84,7 @@
                                         </div>                                                                               
                                     </div> 
                                     <div class="row mt-3">
-                                        <div class="col-md-6">
+                                        <div class="col-md-6 theme-box-border-right">
                                             <div class="card card-actions-stats mb-3 theme-card-box-1 theme-box-1">
                                                 <div class="card-header">
                                                     <div class="row">

@@ -18,9 +18,9 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <?php echo form_open('user/app/crm_chatbot', array('class' => 'crm-chatbot-new-quick-reply')) ?>
+                <?php echo form_open('user/app/crm_chatbot', array('class' => 'mb-3 crm-chatbot-new-quick-reply')) ?>
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 theme-box-border-right">
                             <div class="card theme-card-box-1 theme-box-1">
                                 <div class="card-header">
                                     <div class="row">
@@ -117,7 +117,7 @@
                                     </div>                                                      
                                 </div>
                             </div>                
-                            <div class="card theme-card-box-1 theme-box-1">
+                            <div class="mb-0 card theme-card-box-1 theme-box-1">
                                 <div class="card-header">
                                     <div class="row">
                                         <div class="col-12">

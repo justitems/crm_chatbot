@@ -154,13 +154,15 @@ class Messages {
             // Add form validation
             $this->CI->form_validation->set_rules('covers', 'Covers', 'trim');
             $this->CI->form_validation->set_rules('timezone', 'Timezone', 'trim');
-            $this->CI->form_validation->set_rules('visited_urls', 'Visited Urls', 'trim');            
+            $this->CI->form_validation->set_rules('urls', 'Urls', 'trim');
+            $this->CI->form_validation->set_rules('guest', 'Guest', 'trim');
 
 
             // Get data
             $covers = $this->CI->input->post('covers', TRUE);
             $timezone = $this->CI->input->post('timezone', TRUE);
-            $visited_urls = $this->CI->input->post('visited_urls', TRUE);
+            $urls = $this->CI->input->post('urls', TRUE);
+            $guest = $this->CI->input->post('guest', TRUE);
 
             // Verify if the submitted data is correct
             if ( $this->CI->form_validation->run() !== false ) {
@@ -170,7 +172,8 @@ class Messages {
                     'website' => $website,
                     'covers' => $covers,
                     'timezone' => $timezone,
-                    'visited_urls' => $visited_urls
+                    'visited_urls' => $urls,
+                    'guest' => $guest
                 );
 
                 // Save message
@@ -227,12 +230,14 @@ class Messages {
             // Add form validation
             $this->CI->form_validation->set_rules('message', 'Message', 'trim');
             $this->CI->form_validation->set_rules('timezone', 'Timezone', 'trim');
-            $this->CI->form_validation->set_rules('visited_urls', 'Visited Urls', 'trim');
+            $this->CI->form_validation->set_rules('urls', 'Urls', 'trim');
+            $this->CI->form_validation->set_rules('guest', 'Guest', 'trim');
 
             // Get data
             $message = $this->CI->input->post('message', TRUE);
             $timezone = $this->CI->input->post('timezone', TRUE);
-            $visited_urls = $this->CI->input->post('visited_urls', TRUE);
+            $urls = $this->CI->input->post('urls', TRUE);
+            $guest = $this->CI->input->post('guest', TRUE);
 
             // Verify if the submitted data is correct
             if ( $this->CI->form_validation->run() !== false ) {
@@ -242,7 +247,8 @@ class Messages {
                     'website' => $website,
                     'message' => $message,
                     'timezone' => $timezone,
-                    'visited_urls' => $visited_urls
+                    'visited_urls' => $urls,
+                    'guest' => $guest
                 );
 
                 // Save message
@@ -349,9 +355,11 @@ class Messages {
 
             // Add form validation
             $this->CI->form_validation->set_rules('page', 'Page', 'trim');
+            $this->CI->form_validation->set_rules('guest', 'Guest', 'trim');
 
             // Get data
             $page = $this->CI->input->post('page', TRUE);
+            $guest = $this->CI->input->post('guest', TRUE);
 
             // Verify if the submitted data is correct
             if ( $this->CI->form_validation->run() !== false ) {
@@ -359,7 +367,8 @@ class Messages {
                 // Set params
                 $params = array(
                     'website' => $website,
-                    'page' => $page
+                    'page' => $page,
+                    'guest' => $guest
                 );
 
                 // Gets messages
@@ -469,9 +478,11 @@ class Messages {
 
             // Add form validation
             $this->CI->form_validation->set_rules('last', 'Last', 'trim|numeric|required');
+            $this->CI->form_validation->set_rules('guest', 'Guest', 'trim');
 
             // Get data
             $last = $this->CI->input->post('last', TRUE);
+            $guest = $this->CI->input->post('guest', TRUE);
 
             // Verify if the submitted data is correct
             if ( $this->CI->form_validation->run() !== false ) {
@@ -479,7 +490,8 @@ class Messages {
                 // Set params
                 $params = array(
                     'website' => $website,
-                    'last' => $last
+                    'last' => $last,
+                    'guest' => $guest
                 );
 
                 // Gets messages

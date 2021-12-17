@@ -397,7 +397,7 @@ class Overview {
                     ),
                     array(
                         'group_by' => array('crm_chatbot_websites_triggers_guests.trigger_id'),
-                        'order' =>  array('actions_count', 'DESC'),
+                        'order_by' =>  array('actions_count', 'DESC'),
                         'start' => ($page * 10),
                         'limit' => 10
                     )
@@ -574,7 +574,7 @@ class Overview {
                     ),
                     array(
                         'group_by' => array('crm_chatbot_websites_messages.member_id'),
-                        'order' =>  array('messages_count', 'DESC'),
+                        'order_by' =>  array('messages_count', 'DESC'),
                         'start' => ($page * 10),
                         'limit' => 10
                     )

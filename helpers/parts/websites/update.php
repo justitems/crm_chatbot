@@ -423,7 +423,7 @@ class Update {
                     } else if ( trim($option[strip_tags(trim(key($option)))]) === the_crm_chatbot_websites_meta($params['website'], strip_tags(trim(key($option)))) ) {
                         $update_count++;
                     } else {
-                        $errors_count++;        var_dump($errors_count);
+                        $errors_count++;
                     }
 
                 }

@@ -216,7 +216,7 @@ class Info {
 
                 // Set limit
                 $limit = array(
-                    'order' =>  array('crm_chatbot_websites_threads.updated', 'DESC'),
+                    'order_by' =>  array('crm_chatbot_websites_threads.updated', 'DESC'),
                     'start' => ($page * 10),
                     'limit' => 10
                 );
@@ -439,7 +439,7 @@ class Info {
 
                 // Set limit
                 $limit = array(
-                    'order' =>  array('crm_chatbot_websites_threads.updated', 'DESC'),
+                    'order_by' =>  array('crm_chatbot_websites_threads.updated', 'DESC'),
                     'start' => ($page * 10),
                     'limit' => 10
                 );

@@ -62,7 +62,7 @@ class Create {
     public function crm_chatbot_save_guest_data($params) {
 
         // Verify if the session exists
-        if ( empty($this->CI->session->userdata('crm_chatbot_guest_session')) ) {
+        if ( empty($params['guest']) ) {
 
             // Return error response
             return array(
@@ -78,7 +78,7 @@ class Create {
             '*',
             array(
                 'user_id' => $params['website']['user_id'],
-                'id' => $this->CI->session->userdata('crm_chatbot_guest_session')
+                'id' => $params['guest']
             )
         );
 
@@ -91,7 +91,7 @@ class Create {
             // Guest params
             $guest_params = array(
                 'user_id' => $params['website']['user_id'],
-                'id' => $this->CI->session->userdata('crm_chatbot_guest_session'),
+                'id' => $params['guest'],
                 'created' => time()
             );
 

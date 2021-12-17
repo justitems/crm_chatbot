@@ -164,7 +164,7 @@ class Read {
                 'join_from' => 'LEFT'
             )),
             array(
-                'order' => array('crm_chatbot_websites_messages.message_id', 'DESC'),
+                'order_by' => array('crm_chatbot_websites_messages.message_id', 'DESC'),
                 'start' => $page,
                 'limit' => $limit
             )
@@ -427,7 +427,7 @@ class Read {
     public function crm_chatbot_get_public_messages($params) {
 
         // Verify if the session exists
-        if ( empty($this->CI->session->userdata('crm_chatbot_guest_session')) ) {
+        if ( empty($params['guest']) ) {
 
             // Return error response
             return array(
@@ -443,7 +443,7 @@ class Read {
             '*',
             array(
                 'user_id' => $params['website']['user_id'],
-                'id' => $this->CI->session->userdata('crm_chatbot_guest_session')
+                'id' => $params['guest']
             )
         );
 
@@ -498,7 +498,7 @@ class Read {
                 'join_from' => 'LEFT'
             )),
             array(
-                'order' => array('crm_chatbot_websites_messages.message_id', 'DESC'),
+                'order_by' => array('crm_chatbot_websites_messages.message_id', 'DESC'),
                 'start' => $page,
                 'limit' => $limit
             )
@@ -794,7 +794,7 @@ class Read {
                 'join_from' => 'LEFT'
             )),
             array(
-                'order' => array('crm_chatbot_websites_messages.message_id', 'DESC')
+                'order_by' => array('crm_chatbot_websites_messages.message_id', 'DESC')
             )
         );
 
@@ -1172,7 +1172,7 @@ class Read {
                 'join_from' => 'LEFT'
             )),
             array(
-                'order' => array('crm_chatbot_websites_messages.message_id', 'DESC')
+                'order_by' => array('crm_chatbot_websites_messages.message_id', 'DESC')
             )
         );
 
@@ -1415,7 +1415,7 @@ class Read {
     public function crm_chatbot_get_updates($params) {
 
         // Verify if the session exists
-        if ( empty($this->CI->session->userdata('crm_chatbot_guest_session')) ) {
+        if ( empty($params['guest']) ) {
 
             // Return error response
             return array(
@@ -1431,7 +1431,7 @@ class Read {
             '*',
             array(
                 'user_id' => $params['website']['user_id'],
-                'id' => $this->CI->session->userdata('crm_chatbot_guest_session')
+                'id' => $params['guest']
             )
         );
 
@@ -1481,7 +1481,7 @@ class Read {
                 'join_from' => 'LEFT'
             )),
             array(
-                'order' => array('crm_chatbot_websites_messages.message_id', 'DESC')
+                'order_by' => array('crm_chatbot_websites_messages.message_id', 'DESC')
             )
         );
 

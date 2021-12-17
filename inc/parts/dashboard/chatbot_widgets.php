@@ -135,7 +135,7 @@ if ( !function_exists('the_crm_chatbot_widgets_dashboard_from_parts') ) {
                         )
                     ),
                     array(
-                        'order' => array('crm_chatbot_websites_threads.updated', 'DESC'),
+                        'order_by' => array('crm_chatbot_websites_threads.updated', 'DESC'),
                         'start' => 0,
                         'limit' => 5
                     )

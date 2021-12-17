@@ -40,7 +40,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12"> 
-                                            <div class="crm-chatbot-website-actions">
+                                            <div class="crm-breadcrumb-actions">
                                                 <button type="submit" class="btn btn-primary theme-button-1 theme-background-green">
                                                     <?php echo md_the_user_icon(array('icon' => 'import')); ?>         
                                                     <?php echo $this->lang->line('crm_chatbot_save_website'); ?>

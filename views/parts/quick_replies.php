@@ -26,7 +26,7 @@
                                                     <div class="col-12">
                                                         <?php echo md_the_user_icon(array('icon' => 'search')); ?>
                                                         <input type="text" class="form-control crm-chatbot-search-for-quick-replies" id="crm-chatbot-search-for-quick-replies" placeholder="<?php echo $this->lang->line('crm_chatbot_search_for_quick_replies'); ?>" />
-                                                        <?php echo md_the_user_icon(array('icon' => 'loader')); ?>
+                                                        <?php echo md_the_user_icon(array('icon' => 'loader', 'class' => 'crm-search-icon-loader')); ?>
                                                         <a href="#" class="crm-cancel-search">
                                                             <?php echo md_the_user_icon(array('icon' => 'cancel')); ?>
                                                         </a>

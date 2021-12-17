@@ -134,7 +134,7 @@ class Activities {
                             )                          
                         ),
                         array(
-                            'order' => array('crm_activities.activity_id', 'DESC'),
+                            'order_by' => array('crm_activities.activity_id', 'DESC'),
                             'start' => ($page * $limit),
                             'limit' => $limit
                         )

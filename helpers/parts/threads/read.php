@@ -213,7 +213,7 @@ class Read {
 
         // Set limit
         $limit = array(
-            'order' =>  array('crm_chatbot_websites_threads.updated', 'DESC')
+            'order_by' =>  array('crm_chatbot_websites_threads.updated', 'DESC')
         );
 
         // Verify if start exists
@@ -246,7 +246,10 @@ class Read {
                 $where_in,
                 $like,
                 $join,
-                $limit
+                $limit,
+                array(
+                    'order_by' => array('crm_chatbot_websites_threads.updated', 'DESC')
+                )
             );
 
             // Save cache
@@ -453,7 +456,7 @@ class Read {
 
         // Set limit
         $limit = array(
-            'order' =>  array('crm_chatbot_websites_threads.updated', 'DESC')
+            'order_by' =>  array('crm_chatbot_websites_threads.updated', 'DESC')
         );
 
         // Verify if start exists
@@ -693,7 +696,7 @@ class Read {
 
         // Set limit
         $limit = array(
-            'order' =>  array('crm_chatbot_websites_threads.updated', 'DESC')
+            'order_by' =>  array('crm_chatbot_websites_threads.updated', 'DESC')
         );
 
         // Verify if start exists

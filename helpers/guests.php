@@ -149,11 +149,13 @@ class Guests {
             $this->CI->form_validation->set_rules('name', 'Name', 'trim');
             $this->CI->form_validation->set_rules('email', 'Email', 'trim');
             $this->CI->form_validation->set_rules('phone', 'Phone', 'trim');
+            $this->CI->form_validation->set_rules('guest', 'Guest', 'trim');
 
             // Get data
             $name = $this->CI->input->post('name', TRUE);
             $email = $this->CI->input->post('email', TRUE);
             $phone = $this->CI->input->post('phone', TRUE);
+            $guest = $this->CI->input->post('guest', TRUE);
             
             // Verify if the submitted data is correct
             if ( $this->CI->form_validation->run() !== false ) {
@@ -163,7 +165,8 @@ class Guests {
                     'website' => $website,
                     'name' => $name,
                     'email' => $email,
-                    'phone' => $phone
+                    'phone' => $phone,
+                    'guest' => $guest
                 );             
 
                 // Get the visited urls

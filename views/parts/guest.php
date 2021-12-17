@@ -1,4 +1,4 @@
-<div class="col-xl-7 col-lg-6 col-md-5 theme-tabs crm-chatbot-threads">
+<div class="col-xl-7 col-lg-6 col-md-5 theme-tabs theme-box-border-right crm-chatbot-threads">
     <div class="row">
         <div class="col-12">
             <ul class="nav nav-tabs" id="crm-chatbot-list-tabs" role="tablist">
@@ -26,7 +26,7 @@
                                                     <div class="col-12">
                                                         <?php echo md_the_user_icon(array('icon' => 'search')); ?>
                                                         <input type="text" class="form-control crm-chatbot-search-for-threads" id="crm-chatbot-search-for-threads" placeholder="<?php echo $this->lang->line('crm_chatbot_search_for_threads'); ?>" />
-                                                        <?php echo md_the_user_icon(array('icon' => 'loader')); ?>
+                                                        <?php echo md_the_user_icon(array('icon' => 'loader', 'class' => 'crm-search-icon-loader')); ?>
                                                         <a href="#" class="crm-cancel-search">
                                                             <?php echo md_the_user_icon(array('icon' => 'cancel')); ?>
                                                         </a>
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="card-body theme-covers">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
                                 </div>
-                                <div class="card-footer theme-box-1">
+                                <div class="card-footer theme-box-1 theme-list-footer">
                                     <div class="row">
                                         <div class="col-md-5 col-12">
                                             <h6 class="theme-color-black"></h6>

@@ -43,7 +43,7 @@ if (!function_exists('the_crm_chatbot_template_dropdown_categories_from_parts'))
             $like,
             array(),
             array(
-                'order' => array('category_id', 'DESC'),
+                'order_by' => array('category_id', 'DESC'),
                 'start' => 0,
                 'limit' => 10
             )

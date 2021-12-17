@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade theme-modal" id="crm-chatbot-activity-modal" tabindex="-1" role="dialog" aria-labelledby="crm-chatbot-activity-modal-title" aria-hidden="true">
+<div class="modal fade theme-modal" id="crm-activity-modal" tabindex="-1" role="dialog" aria-labelledby="crm-activity-modal-title" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content theme-color-black">
             <div class="modal-header">

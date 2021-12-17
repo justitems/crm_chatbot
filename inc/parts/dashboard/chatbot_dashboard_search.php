@@ -172,7 +172,7 @@ if ( !function_exists('the_crm_chatbot_search_data_dashboard_from_parts') ) {
 
             // Set limit
             $limit = array(
-                'order' =>  array('crm_chatbot_websites_threads.updated', 'DESC')
+                'order_by' =>  array('crm_chatbot_websites_threads.updated', 'DESC')
             );
 
             // Verify if start exists

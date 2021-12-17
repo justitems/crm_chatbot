@@ -23,12 +23,6 @@ use CmsBase\User\Apps\Collection\Crm_chatbot\Helpers\Parts\Messages as CmsBaseUs
 use CmsBase\User\Apps\Collection\Crm_chatbot\Helpers\Parts\Bot as CmsBaseUserAppsCollectionCrm_chatbotHelpersPartsBot;
 use CmsBase\Classes\Media as CmsBaseClassesMedia;
 
-// Require the Automations Inc
-md_get_the_file(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/automations.php');
-
-// Require the Automations Hooks Inc
-md_get_the_file(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/automations_hooks.php');
-
 /*
  * Create class extends the class Messages to make it lighter
  * 
@@ -54,6 +48,17 @@ class Create {
         
         // Get CodeIgniter object instance
         $this->CI =& get_instance();
+
+        // Verify if CRM Automations exists
+        if ( file_exists(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/automations.php') ) {
+
+            // Require the Automations Inc
+            md_get_the_file(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/automations.php');
+
+            // Require the Automations Hooks Inc
+            md_get_the_file(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/automations_hooks.php');
+
+        }
         
     }
 
@@ -250,29 +255,7 @@ class Create {
     public function crm_chatbot_upload_file($params) {
 
         // Verify if the session exists
-        if ( !is_numeric($this->CI->session->userdata('crm_chatbot_website_session')) ) {
-
-            // Return error response
-            return array(
-                'success' => FALSE,
-                'message' => $this->CI->lang->line('crm_chatbot_file_was_not_uploaded_successfully')
-            ); 
-
-        }
-
-        // Verify if website parameter exists
-        if ( $params['website']['website_id'] !== $this->CI->session->userdata('crm_chatbot_website_session') ) {
-
-            // Return error response
-            return array(
-                'success' => FALSE,
-                'message' => $this->CI->lang->line('crm_chatbot_file_was_not_uploaded_successfully')
-            ); 
-            
-        }
-
-        // Verify if the session exists
-        if ( empty($this->CI->session->userdata('crm_chatbot_guest_session')) ) {
+        if ( empty($params['guest']) ) {
 
             // Return error response
             return array(
@@ -288,7 +271,7 @@ class Create {
             '*',
             array(
                 'user_id' => $params['website']['user_id'],
-                'id' => $this->CI->session->userdata('crm_chatbot_guest_session')
+                'id' => $params['guest']
             )
         );
 
@@ -301,7 +284,7 @@ class Create {
             // Guest params
             $guest_params = array(
                 'user_id' => $params['website']['user_id'],
-                'id' => $this->CI->session->userdata('crm_chatbot_guest_session'),
+                'id' => $params['guest'],
                 'created' => time()
             );
 
@@ -330,6 +313,69 @@ class Create {
 
                     // Save the guest's timezone
                     update_crm_chatbot_websites_guests_meta($the_guest, 'guest_timezone', $params['timezone']);                    
+
+                }
+
+            }
+
+            // Verify if the ip2location is enabled
+            if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
+
+                // Verify if api key exists
+                if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
+
+                    // Get guest information
+                    $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $this->CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
+
+                    // Verify if response key exists
+                    if ( !empty($the_guest_info['response']) ) {
+
+                        // Verify if response value is OK
+                        if ( $the_guest_info['response'] === 'OK' ) {
+
+                            // Verify if latitude exists
+                            if ( !empty($the_guest_info['latitude']) ) {
+
+                                // Save the latitude
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_latitude', $the_guest_info['latitude']); 
+
+                            }
+
+                            // Verify if longitude exists
+                            if ( !empty($the_guest_info['longitude']) ) {
+
+                                // Save the longitude
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_longitude', $the_guest_info['longitude']); 
+
+                            }
+                            
+                            // Verify if country code exists
+                            if ( !empty($the_guest_info['country_code']) ) {
+
+                                // Save the country code
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_country_code', $the_guest_info['country_code']); 
+
+                            }
+                            
+                            // Verify if country name exists
+                            if ( !empty($the_guest_info['country_name']) ) {
+
+                                // Save the country name
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_country_name', $the_guest_info['country_name']); 
+
+                            }
+                            
+                            // Verify if city name exists
+                            if ( !empty($the_guest_info['city_name']) ) {
+
+                                // Save the city name
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_city_name', $the_guest_info['city_name']); 
+
+                            }                             
+
+                        }
+
+                    }
 
                 }
 
@@ -503,60 +549,6 @@ class Create {
 
         }
 
-        // Get user's plan
-        $user_plan = md_the_user_option($params['website']['user_id'], 'plan');
-
-        // Verify if user's plan exists
-        if ( !$user_plan ) {
-
-            // Prepare the error response
-            return array(
-                'success' => FALSE,
-                'message' => $this->CI->lang->line('crm_chatbot_an_error_occurred')
-            );                 
-
-        }
-
-        // Get plan's information
-        $get_plan = $this->CI->base_model->the_data_where('plans',
-        'storage',
-        array(
-            'plan_id' => $user_plan
-        ));
-
-        // Verify if plan exists
-        if ( !$get_plan ) {
-
-            // Prepare the error response
-            return array(
-                'success' => FALSE,
-                'message' => $this->CI->lang->line('crm_chatbot_plan_was_not_found')
-            );                        
-
-        }
-
-        // Get upload limit
-        $upload_limit = md_the_option('upload_limit');
-        
-        // Verify for upload limit
-        if ( !$upload_limit ) {
-
-            // Set default limit
-            $upload_limit = 6291456;
-
-        } else {
-
-            // Set wanted limit
-            $upload_limit = $upload_limit * 1048576;
-
-        }
-
-        // Get user storage
-        $user_storage = md_the_user_option($params['website']['user_id'], 'user_storage');
-
-        // Temporary storage
-        $temp_storage = ($user_storage?$user_storage:0);
-
         // Verify if the uploaded file is an image
         if ( !in_array($_FILES['files']['type'][0], array('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'video/mp4', 'video/avi', 'application/pdf', 'application/doc', 'application/ms-doc', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/excel', 'application/vnd.ms-excel', 'application/x-excel', 'application/x-msexcel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')) ) {
 
@@ -714,34 +706,12 @@ class Create {
     public function crm_chatbot_send_message($params) {
 
         // Verify if the session exists
-        if ( !is_numeric($this->CI->session->userdata('crm_chatbot_website_session')) ) {
+        if ( empty($params['guest']) ) {
 
             // Return error response
             return array(
                 'success' => FALSE,
-                'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent')
-            ); 
-
-        }
-
-        // Verify if website parameter exists
-        if ( $params['website']['website_id'] !== $this->CI->session->userdata('crm_chatbot_website_session') ) {
-
-            // Return error response
-            return array(
-                'success' => FALSE,
-                'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent')
-            ); 
-            
-        }
-
-        // Verify if the session exists
-        if ( empty($this->CI->session->userdata('crm_chatbot_guest_session')) ) {
-
-            // Return error response
-            return array(
-                'success' => FALSE,
-                'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent')
+                'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent') . 2
             ); 
 
         }
@@ -768,13 +738,27 @@ class Create {
 
         }
 
+        // Get user's plan
+        $user_plan = md_the_user_option($params['website']['user_id'], 'plan');
+
+        // Verify if user's plan exists
+        if ( !$user_plan ) {
+
+            // Prepare the error response
+            return array(
+                'success' => FALSE,
+                'message' => $this->CI->lang->line('crm_chatbot_an_error_occurred')
+            );                 
+
+        }
+
         // Get the guest
         $the_guest = $this->CI->base_model->the_data_where(
             'crm_chatbot_websites_guests',
             '*',
             array(
                 'user_id' => $params['website']['user_id'],
-                'id' => $this->CI->session->userdata('crm_chatbot_guest_session')
+                'id' => $params['guest']
             )
         );
 
@@ -787,7 +771,7 @@ class Create {
             // Guest params
             $guest_params = array(
                 'user_id' => $params['website']['user_id'],
-                'id' => $this->CI->session->userdata('crm_chatbot_guest_session'),
+                'id' => $params['guest'],
                 'created' => time()
             );
 
@@ -800,7 +784,7 @@ class Create {
                 // Return error response
                 return array(
                     'success' => FALSE,
-                    'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent')
+                    'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent') . '3'
                 ); 
                 
             }
@@ -825,6 +809,69 @@ class Create {
 
                     // Save the guest's timezone
                     update_crm_chatbot_websites_guests_meta($the_guest, 'guest_timezone', $params['timezone']);                    
+
+                }
+
+            }
+        
+            // Verify if the ip2location is enabled
+            if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
+
+                // Verify if api key exists
+                if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
+
+                    // Get guest information
+                    $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $this->CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
+
+                    // Verify if response key exists
+                    if ( !empty($the_guest_info['response']) ) {
+
+                        // Verify if response value is OK
+                        if ( $the_guest_info['response'] === 'OK' ) {
+
+                            // Verify if latitude exists
+                            if ( !empty($the_guest_info['latitude']) ) {
+
+                                // Save the latitude
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_latitude', $the_guest_info['latitude']); 
+
+                            }
+
+                            // Verify if longitude exists
+                            if ( !empty($the_guest_info['longitude']) ) {
+
+                                // Save the longitude
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_longitude', $the_guest_info['longitude']); 
+
+                            }
+                            
+                            // Verify if country code exists
+                            if ( !empty($the_guest_info['country_code']) ) {
+
+                                // Save the country code
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_country_code', $the_guest_info['country_code']); 
+
+                            }
+                            
+                            // Verify if country name exists
+                            if ( !empty($the_guest_info['country_name']) ) {
+
+                                // Save the country name
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_country_name', $the_guest_info['country_name']); 
+
+                            }
+                            
+                            // Verify if city name exists
+                            if ( !empty($the_guest_info['city_name']) ) {
+
+                                // Save the city name
+                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_city_name', $the_guest_info['city_name']); 
+
+                            }                             
+
+                        }
+
+                    }
 
                 }
 
@@ -925,7 +972,7 @@ class Create {
                 // Return error response
                 return array(
                     'success' => FALSE,
-                    'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent')
+                    'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent') . '4'
                 ); 
                 
             }
@@ -1044,7 +1091,7 @@ class Create {
             }
 
             // Set number of allowed automatic replies
-            $allowed_replies = md_the_plan_feature('app_crm_chatbot_allowed_automatic_replies')?md_the_plan_feature('app_crm_chatbot_allowed_automatic_replies'):0; 
+            $allowed_replies = md_the_plan_feature('app_crm_chatbot_allowed_automatic_replies', $user_plan)?md_the_plan_feature('app_crm_chatbot_allowed_automatic_replies', $user_plan):0; 
             
             // Set done automatic replies
             $automatic_replies = md_the_user_option($params['website']['user_id'], 'crm_chatbot_automatic_replies');
@@ -1308,7 +1355,7 @@ class Create {
             // Return error response
             return array(
                 'success' => FALSE,
-                'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent')
+                'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent') . '5'
             ); 
             
         }
