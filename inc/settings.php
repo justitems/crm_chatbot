@@ -50,6 +50,42 @@ if ( md_the_option('app_crm_chatbot_enabled') && md_the_plan_feature('app_crm_ch
         )
     );
 
+    // Set general's tab option
+    set_crm_settings_general_tab_option (
+        'crm_chatbot_general_chatbot_tab',
+        array(
+            'template_slug' => 'checkbox_input',
+            'slug' => 'crm_chatbot_new_messages_alerts',
+            'label' => $this->lang->line('crm_chatbot_new_messages_alerts'),
+            'label_description' => $this->lang->line('crm_chatbot_new_messages_alerts_description'),
+            'position' => 3
+        )
+    );    
+
+    // Set general's tab option
+    set_crm_settings_general_tab_option (
+        'crm_chatbot_general_chatbot_tab',
+        array(
+            'template_slug' => 'checkbox_input',
+            'slug' => 'crm_chatbot_new_threads_notifications',
+            'label' => $this->lang->line('crm_chatbot_new_threads_notifications'),
+            'label_description' => $this->lang->line('crm_chatbot_new_threads_notifications_description'),
+            'position' => 4
+        )
+    );
+
+    // Set general's tab option
+    set_crm_settings_general_tab_option (
+        'crm_chatbot_general_chatbot_tab',
+        array(
+            'template_slug' => 'checkbox_input',
+            'slug' => 'crm_chatbot_new_messages_notifications',
+            'label' => $this->lang->line('crm_chatbot_new_messages_notifications'),
+            'label_description' => $this->lang->line('crm_chatbot_new_messages_notifications_description'),
+            'position' => 5
+        )
+    );
+
 }
 
 /* End of file settings.php */

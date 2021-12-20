@@ -193,24 +193,37 @@ class Main implements CmsBaseUserInterfaces\Apps {
 
             case 'admin_init':
 
-                // Register the hooks for administrator
-                md_set_hook(
-                    'admin_init',
-                    function ($args) {
+                // Verify if user has opened the user component
+                if ( (md_the_data('component') === 'user') ) {
 
-                        // Load the admin app's language file
-                        $this->CI->lang->load('crm_chatbot_admin', $this->CI->config->item('language'), FALSE, TRUE, CMS_BASE_USER_APPS_CRM_CHATBOT);
+                    // Register the hooks for administrator
+                    md_set_hook(
+                        'admin_init',
+                        function ($args) {
 
-                        // Require the Admin Inc
-                        md_get_the_file(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/admin.php');
+                            // Load the admin app's language file
+                            $this->CI->lang->load('crm_chatbot_admin', $this->CI->config->item('language'), FALSE, TRUE, CMS_BASE_USER_APPS_CRM_CHATBOT);
 
-                        // Require the Plans Inc
-                        md_get_the_file(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/plans.php');
+                            // Require the Admin Inc
+                            md_get_the_file(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/admin.php');
+
+                            // Require the Plans Inc
+                            md_get_the_file(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/plans.php');
 
 
-                    }
+                        }
 
-                );   
+                    );   
+
+                } else if (md_the_data('component') === 'notifications') {
+
+                    // Load the component's language files
+                    $this->CI->lang->load( 'crm_chatbot_email_templates', $this->CI->config->item('language'), FALSE, TRUE, CMS_BASE_USER_APPS_CRM_CHATBOT);
+
+                    // Require the email_templates file
+                    require_once CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/email_templates.php';
+
+                }
 
                 break;
 
@@ -310,7 +323,7 @@ class Main implements CmsBaseUserInterfaces\Apps {
             'app_slug' => 'crm_chatbot',
             'app_icon' => md_the_admin_icon(array('icon' => 'chat_small')),
             'version' => CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION,
-            'update_url' => 'https://github.com/scrisoft/crm_chatbot/blob/main/updates.json',
+            'update_url' => 'https://github.com/scrisoft/crm_chatbot/blob/main/update',
             'update_code' => FALSE,
             'min_version' => '0.0.8.5',
             'max_version' => '0.0.8.5'

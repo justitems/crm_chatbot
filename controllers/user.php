@@ -1042,6 +1042,48 @@ class User {
                     // Require the Website Functions Inc file
                     require_once CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/website_functions.php';
 
+                    // Get the alert by bot's ID
+                    $the_alerts = $this->CI->base_model->the_data_where(
+                        'notifications_alerts_fields',
+                        'notifications_alerts_users.id, notifications_alerts_users.banner_seen',
+                        array(
+                            'notifications_alerts_fields.field_name' => 'crm_chatbot_thread_id',
+                            'notifications_alerts_fields.field_value' => $this->CI->input->get('thread', TRUE)
+                        ),
+                        array(),
+                        array(),
+                        array(array(
+                            'table' => 'notifications_alerts_users',
+                            'condition' => 'notifications_alerts_fields.alert_id=notifications_alerts_users.alert_id',
+                            'join_from' => 'LEFT'
+                        ))
+                    );
+
+                    // Verify if alerts exists
+                    if ( $the_alerts ) {
+
+                        // List alerts
+                        foreach ( $the_alerts as $the_alert ) {
+
+                            // Verify if the banner is unseen
+                            if ( empty($the_alert['banner_seen']) ) {
+
+                                // Mark the banner as seen
+                                $this->CI->base_model->update(
+                                    'notifications_alerts_users',
+                                    array(
+                                        'id' => $the_alert['id']
+                                    ), array(
+                                        'banner_seen' => 1
+                                    )
+                                );
+
+                            }
+
+                        }
+
+                    }
+
                     // Set views params
                     set_user_view(
                         $this->CI->load->ext_view(

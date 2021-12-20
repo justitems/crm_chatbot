@@ -92,7 +92,7 @@ set_crm_settings_page(
     'plan',
     array(
         'page_name' => $this->lang->line('crm_settings_my_plan'),
-        'page_icon' => '<i class="ri-bar-chart-box-line"></i>',
+        'page_icon' => md_the_user_icon(array('icon' => 'bar_chart_box')),
         'page_content' => 'get_crm_settings_plan_page',
         'css_urls' => array(
             array('stylesheet', base_url('assets/base/user/apps/collection/crm-settings/styles/css/plan.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all'),

@@ -22,6 +22,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use CmsBase\User\Apps\Collection\Crm_chatbot\Helpers\Parts\Messages as CmsBaseUserAppsCollectionCrm_chatbotHelpersPartsMessages;
 use CmsBase\User\Apps\Collection\Crm_chatbot\Helpers\Parts\Bot as CmsBaseUserAppsCollectionCrm_chatbotHelpersPartsBot;
 use CmsBase\Classes\Media as CmsBaseClassesMedia;
+use CmsBase\Classes\Email as CmsBaseClassesEmail;
 
 /*
  * Create class extends the class Messages to make it lighter
@@ -59,6 +60,9 @@ class Create {
             md_get_the_file(CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/automations_hooks.php');
 
         }
+
+        // Load the component's language files
+        $this->CI->lang->load( 'crm_chatbot_email_templates', $this->CI->config->item('language'), FALSE, TRUE, CMS_BASE_USER_APPS_CRM_CHATBOT);
         
     }
 
@@ -427,10 +431,97 @@ class Create {
                 
             }
 
+            // Verify if the user wants to receive notifications
+            if ( md_the_user_option($params['website']['user_id'], 'crm_chatbot_new_threads_alerts') ) {
+
+                // Save the notification
+                $this->save_notification(
+                    $params['website']['user_id'],
+                    $this->CI->lang->line('crm_chatbot_a_new_thread_created'),
+                    $this->CI->lang->line('crm_chatbot_a_new_thread_was_created') . ' <a href="' . site_url('user/app/crm_chatbot?thread=' . $the_thread) . '">'
+                        . $this->CI->lang->line('crm_chatbot_click_here_more_details')
+                    . '</a>',
+                    'crm_chatbot_thread_id',
+                    $the_thread
+                );
+
+            }
+
+            // Verify if the user wants to receive notifications
+            if ( md_the_user_option($params['website']['user_id'], 'crm_chatbot_new_threads_notifications') ) {
+
+                // Send the notification
+                $this->send_notification( $params['website']['user_id'],
+                    $params['website']['website_id'],
+                    array(array(
+                        'placeholder' => '[thread_id]',
+                        'replacer' => $the_thread
+                    ), array(
+                        'placeholder' => '[thread_link]',
+                        'replacer' => '<a href="' . site_url('user/app/crm_chatbot?thread=' . $the_thread) . '">'
+                            . site_url('user/app/crm_chatbot?thread=' . $the_thread)
+                        . '</a>'
+                    )),
+                    'crm_chatbot_new_thread_notification',
+                    $this->CI->lang->line('crm_chatbot_a_new_thread_was_created'),
+                    $this->CI->lang->line('crm_chatbot_new_thread_was_created')
+                );
+
+            }
+
             // Set thread's ID
             $thread_id = $the_thread;
 
         } else {
+
+            // Verify if the thread is blocked
+            if ( $the_thread[0]['status'] > 1 ) {
+
+                // Return error response
+                return array(
+                    'success' => FALSE,
+                    'message' => $this->CI->lang->line('crm_chatbot_chat_is_blocked')
+                );       
+
+            }  
+
+            // Verify if the user wants to receive notifications
+            if ( md_the_user_option($params['website']['user_id'], 'crm_chatbot_new_messages_alerts') ) {
+
+                // Save the notification
+                $this->save_notification(
+                    $params['website']['user_id'],
+                    $this->CI->lang->line('crm_chatbot_new_message_received'),
+                    $this->CI->lang->line('crm_chatbot_you_have_received_new_message') . ' <a href="' . site_url('user/app/crm_chatbot?thread=' . $thread_id) . '">'
+                        . $this->CI->lang->line('crm_chatbot_click_here_more_details')
+                    . '</a>',
+                    'crm_chatbot_thread_id',
+                    $thread_id
+                );
+
+            }
+
+            // Verify if the user wants to receive notifications
+            if ( md_the_user_option($params['website']['user_id'], 'crm_chatbot_new_messages_notifications') ) {
+
+                // Send the notification
+                $this->send_notification( $params['website']['user_id'],
+                    $params['website']['website_id'],
+                    array(array(
+                        'placeholder' => '[thread_id]',
+                        'replacer' => $thread_id
+                    ), array(
+                        'placeholder' => '[thread_link]',
+                        'replacer' => '<a href="' . site_url('user/app/crm_chatbot?thread=' . $thread_id) . '">'
+                            . site_url('user/app/crm_chatbot?thread=' . $thread_id)
+                        . '</a>'
+                    )),
+                    'crm_chatbot_new_message_notification',
+                    $this->CI->lang->line('crm_chatbot_a_new_message_was_created'),
+                    $this->CI->lang->line('crm_chatbot_new_message_was_created')
+                );
+
+            }
 
             // Update the thread
             $this->CI->base_model->update('crm_chatbot_websites_threads', array('thread_id' => $thread_id), array('updated' => time()));
@@ -972,9 +1063,47 @@ class Create {
                 // Return error response
                 return array(
                     'success' => FALSE,
-                    'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent') . '4'
+                    'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent')
                 ); 
                 
+            }
+
+            // Verify if the user wants to receive notifications
+            if ( md_the_user_option($params['website']['user_id'], 'crm_chatbot_new_threads_alerts') ) {
+
+                // Save the notification
+                $this->save_notification(
+                    $params['website']['user_id'],
+                    $this->CI->lang->line('crm_chatbot_a_new_thread_created'),
+                    $this->CI->lang->line('crm_chatbot_a_new_thread_was_created') . ' <a href="' . site_url('user/app/crm_chatbot?thread=' . $the_thread) . '">'
+                        . $this->CI->lang->line('crm_chatbot_click_here_more_details')
+                    . '</a>',
+                    'crm_chatbot_thread_id',
+                    $the_thread
+                );
+
+            }
+
+            // Verify if the user wants to receive notifications
+            if ( md_the_user_option($params['website']['user_id'], 'crm_chatbot_new_threads_notifications') ) {
+
+                // Send the notification
+                $this->send_notification( $params['website']['user_id'],
+                    $params['website']['website_id'],
+                    array(array(
+                        'placeholder' => '[thread_id]',
+                        'replacer' => $the_thread
+                    ), array(
+                        'placeholder' => '[thread_link]',
+                        'replacer' => '<a href="' . site_url('user/app/crm_chatbot?thread=' . $the_thread) . '">'
+                            . site_url('user/app/crm_chatbot?thread=' . $the_thread)
+                        . '</a>'
+                    )),
+                    'crm_chatbot_new_thread_notification',
+                    $this->CI->lang->line('crm_chatbot_a_new_thread_was_created'),
+                    $this->CI->lang->line('crm_chatbot_new_thread_was_created')
+                );
+
             }
 
             // Set thread's ID
@@ -991,7 +1120,45 @@ class Create {
                     'message' => $this->CI->lang->line('crm_chatbot_chat_is_blocked')
                 );       
 
-            }            
+            }   
+            
+            // Verify if the user wants to receive notifications
+            if ( md_the_user_option($params['website']['user_id'], 'crm_chatbot_new_messages_alerts') ) {
+
+                // Save the notification
+                $this->save_notification(
+                    $params['website']['user_id'],
+                    $this->CI->lang->line('crm_chatbot_new_message_received'),
+                    $this->CI->lang->line('crm_chatbot_you_have_received_new_message') . ' <a href="' . site_url('user/app/crm_chatbot?thread=' . $thread_id) . '">'
+                        . $this->CI->lang->line('crm_chatbot_click_here_more_details')
+                    . '</a>',
+                    'crm_chatbot_thread_id',
+                    $thread_id
+                );
+
+            }
+
+            // Verify if the user wants to receive notifications
+            if ( md_the_user_option($params['website']['user_id'], 'crm_chatbot_new_messages_notifications') ) {
+
+                // Send the notification
+                $this->send_notification( $params['website']['user_id'],
+                    $params['website']['website_id'],
+                    array(array(
+                        'placeholder' => '[thread_id]',
+                        'replacer' => $thread_id
+                    ), array(
+                        'placeholder' => '[thread_link]',
+                        'replacer' => '<a href="' . site_url('user/app/crm_chatbot?thread=' . $thread_id) . '">'
+                            . site_url('user/app/crm_chatbot?thread=' . $thread_id)
+                        . '</a>'
+                    )),
+                    'crm_chatbot_new_message_notification',
+                    $this->CI->lang->line('crm_chatbot_a_new_message_was_created'),
+                    $this->CI->lang->line('crm_chatbot_new_message_was_created')
+                );
+
+            }
 
             // Update the thread
             $this->CI->base_model->update('crm_chatbot_websites_threads', array('thread_id' => $thread_id), array('updated' => time()));
@@ -1442,6 +1609,224 @@ class Create {
         }
         
         md_update_user_option($user_id, 'crm_chatbot_automatic_replies', $record);
+        
+    }
+
+    /**
+     * The protected method save_notification saves a notification
+     *
+     * @param integer $user_id contains the user id
+     * @param string $alert_title contains the alert's title
+     * @param string $alert_message contains the alert's message
+     * @param string $alert_scope contains the alert's scope
+     * @param string $alert_scope_id contains the alert's scope id
+     * 
+     * @return void
+     */ 
+    protected function save_notification( $user_id, $alert_title, $alert_message, $alert_scope, $alert_scope_id ) {
+
+        // Alert fields
+        $alert_fields = array();
+
+        // Get all languages
+        $languages = glob(APPPATH . 'language' . '/*', GLOB_ONLYDIR);
+
+        // List all languages
+        foreach ($languages as $language) {
+
+            // Get lang dir name
+            $lang = str_replace(APPPATH . 'language' . '/', '', $language);
+
+            // Set alert's banner enabled
+            $alert_fields[] = array(
+                'field_name' => 'banner_enabled',
+                'field_value' => 1,
+                'language' => $lang
+            );
+            
+            // Set alert's id
+            $alert_fields[] = array(
+                'field_name' => $alert_scope,
+                'field_value' => $alert_scope_id,
+                'language' => $lang
+            );
+
+            // Set alert's banner
+            $alert_fields[] = array(
+                'field_name' => 'banner_content',
+                'field_value' => $alert_message,
+                'language' => $lang
+            );
+
+            // Set alert's page title
+            $alert_fields[] = array(
+                'field_name' => 'page_title',
+                'field_value' => $alert_title,
+                'language' => $lang
+            );
+            
+            // Set alert's page content
+            $alert_fields[] = array(
+                'field_name' => 'page_content',
+                'field_value' => $alert_message,
+                'language' => $lang
+            );                     
+
+        }
+
+        // Save the alert
+        md_save_admin_notifications_alert(
+            array(
+                'alert_name' => $this->CI->lang->line('crm_chatbot_new_chatbot_notification'),
+                'alert_type' => 0,
+                'alert_audience' => 0,
+                'alert_fields' => $alert_fields,
+                'alert_filters' => array(),
+                'alert_users' => array(
+                    array(
+                        'user_id' => $user_id
+                    )
+                )
+            )
+        );
+        
+    }
+
+    /**
+     * The protected method send_notification sends a notification
+     *
+     * @param integer $user_id contains the user id
+     * @param integer $website_id contains the website's id
+     * @param array $additional_placeholders contains additional placeholders
+     * @param string $template contains the template's string
+     * @param string $subject contains the email's subject
+     * @param string $body contains the email's body
+     * 
+     * @return void
+     */ 
+    protected function send_notification( $user_id, $website_id, $additional_placeholders, $template, $subject, $body) {
+
+        // Set language
+        $user_language = md_the_user_option($user_id, 'user_language')?md_the_user_option($user_id, 'user_language'):$this->CI->config->item('language');
+
+        // Receivers list
+        $receivers_list = array(
+            array(
+                'first_name' => md_the_user_option($user_id, 'first_name'),
+                'last_name' => md_the_user_option($user_id, 'last_name'),
+                'email' => md_the_user_option($user_id, 'email')
+            )
+        );
+
+        // Get the team's members
+        $the_members = $this->CI->base_model->the_data_where(
+            'teams',
+            'teams.member_username, teams.member_email, teams.role_id, teams_meta.meta_value AS first_name, last.meta_value AS last_name',
+            array(
+                'teams.user_id' => $user_id
+            ),
+            array(),
+            array(),
+            array(array(
+                'table' => 'teams_meta',
+                'condition' => "teams.member_id=teams_meta.member_id AND teams_meta.meta_name='first_name'",
+                'join_from' => 'LEFT'
+            ), array(
+                'table' => 'teams_meta last',
+                'condition' => "teams.member_id=last.member_id AND last.meta_name='last_name'",
+                'join_from' => 'LEFT'
+            ))
+        );
+
+        // Verify if members exists
+        if ( $the_members ) {
+
+            // List members
+            foreach ( $the_members as $the_member ) {
+
+                // Verify if member has access
+                if ( !the_crm_team_roles_multioptions_list_item($user_id,  $the_member['role_id'], 'crm_chatbot_allowed_websites', $website_id) ) {
+                    continue;
+                }
+
+                // Set new receiver
+                $receivers_list[] = array(
+                    'first_name' => $the_member['first_name'],
+                    'last_name' => $the_member['last_name'],
+                    'email' => $the_member['member_email']
+                );
+
+            }
+
+        }
+
+        // Verify if receivers exists
+        if ( $receivers_list ) {
+
+            // List the receivers
+            foreach ( $receivers_list as $receiver ) {
+
+                // Placeholders
+                $placeholders = array(
+                    '[first_name]',
+                    '[last_name]',
+                    '[website_url]',
+                    '[website_name]'
+                );
+
+                // Replacers
+                $replacers = array(
+                    $receiver['first_name'],
+                    $receiver['last_name'],
+                    site_url(),
+                    $this->CI->config->item('site_name')
+                );
+
+                // Verify if placeholders exists
+                if ( $additional_placeholders ) {
+
+                    // List the placeholders
+                    foreach ( $additional_placeholders as $placeholder ) {
+
+                        // Add placeholder
+                        $placeholders[] = $placeholder['placeholder'];
+
+                        // Add replacer
+                        $replacers[] = $placeholder['replacer'];                        
+
+                    }
+
+                }
+
+                // Get template
+                $the_template = the_admin_notifications_email_template($template, $user_language);
+
+                // Verify if $the_template exists
+                if ( $the_template ) {
+
+                    // New subject
+                    $subject = $the_template[0]['template_title'];
+
+                    // New body
+                    $body = $the_template[0]['template_body'];
+
+                }
+
+                // Create email
+                $email_args = array(
+                    'from_name' => $this->CI->config->item('site_name'),
+                    'from_email' => $this->CI->config->item('contact_mail'),
+                    'to_email' => $receiver['email'],
+                    'subject' => str_replace($placeholders, $replacers, $subject),
+                    'body' => str_replace($placeholders, $replacers, $body)
+                );
+
+                // Send notification template
+                (new CmsBaseClassesEmail\Send())->send_mail($email_args);
+
+            }
+
+        }
         
     }
 

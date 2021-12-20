@@ -123,6 +123,43 @@ class Read {
 
         }
 
+        // Get the alert by bot's ID
+        $the_alert = $this->CI->base_model->the_data_where(
+            'notifications_alerts_fields',
+            'notifications_alerts_users.id, notifications_alerts_users.banner_seen',
+            array(
+                'notifications_alerts_fields.field_name' => 'crm_chatbot_thread_id',
+                'notifications_alerts_fields.field_value' => $params['thread']
+            ),
+            array(),
+            array(),
+            array(array(
+                'table' => 'notifications_alerts_users',
+                'condition' => 'notifications_alerts_fields.alert_id=notifications_alerts_users.alert_id',
+                'join_from' => 'LEFT'
+            ))
+        );
+
+        // Verify if alert exists
+        if ( $the_alert ) {
+
+            // Verify if the banner is unseen
+            if ( empty($the_alert[0]['banner_seen']) ) {
+
+                // Mark the banner as seen
+                $this->CI->base_model->update(
+                    'notifications_alerts_users',
+                    array(
+                        'id' => $the_alert[0]['id']
+                    ), array(
+                        'banner_seen' => 1
+                    )
+                );
+
+            }
+
+        }
+
         // Require the Website Functions Inc file
         require_once CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/website_functions.php';
 
