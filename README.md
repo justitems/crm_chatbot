@@ -6,6 +6,10 @@
 
 <p>DEMO VIDEO: https://youtu.be/3EOCRJNkezg</p>
 
+<p>Configuration: https://www.midrub.com/categories/chatbot-11</p>
+
+<p>Usage: https://www.midrub.com/categories/chatbot-9</p>
+
 <br>
 
 <h4>Introduction</h4>
