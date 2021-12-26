@@ -87,6 +87,11 @@ class Chat {
             // Send message
             $this->send_message(); 
 
+        } else if ( $this->CI->input->get('send_bot_element', TRUE) ) {
+
+            // Send bot element
+            $this->send_bot_element(); 
+
         } else if ( $this->CI->input->get('get_messages', TRUE) ) {
             
             // Get the messages
@@ -334,6 +339,74 @@ class Chat {
     }
 
     /**
+     * The public method send_bot_element sends a bot's element
+     * 
+     * @since 0.0.8.5
+     * 
+     * @return void
+     */
+    public function send_bot_element() {
+
+        // Verify if send_bot_element parameter exists
+        if ( is_numeric($this->CI->input->get('send_bot_element', TRUE)) ) {
+
+            // Check if data was submitted
+            if ($this->CI->input->post()) {
+
+                // Add form validation
+                $this->CI->form_validation->set_rules('guest', 'Guest', 'trim|required');
+                $this->CI->form_validation->set_rules('bot', 'Bot', 'trim|required');
+                $this->CI->form_validation->set_rules('connector', 'Connector', 'trim|required');
+                $this->CI->form_validation->set_rules('timezone', 'Timezone', 'trim|required');
+
+                // Get data
+                $guest = $this->CI->input->post('guest', TRUE);
+                $bot = $this->CI->input->post('bot', TRUE);
+                $connector = $this->CI->input->post('connector', TRUE);
+                $timezone = $this->CI->input->post('timezone', TRUE);
+
+                // Verify if the submitted data is correct
+                if ( $this->CI->form_validation->run() !== false ) {
+
+                    // Get the website
+                    $the_website = $this->CI->base_model->the_data_where(
+                        'crm_chatbot_websites',
+                        '*',
+                        array(
+                            'website_id' => $this->CI->input->get('send_bot_element', TRUE)
+                        )
+                    );
+
+                    // Verify if the website exists
+                    if ( $the_website ) {
+
+                        // Require the Send Message Part Inc file
+                        require_once CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/parts/message/send.php';
+
+                        // Send bot
+                        crm_chatbot_send_bot_from_parts(array('website_id' => $the_website[0]['website_id'], 'user_id' => $the_website[0]['user_id'], 'bot' => $bot, 'connector' => $connector, 'guest' => $guest, 'timezone' => $timezone));
+                        exit(); 
+
+                    }
+
+                }
+
+            }
+
+        }
+
+        // Prepare the false response
+        $data = array(
+            'success' => FALSE,
+            'message' => $this->CI->lang->line('crm_chatbot_an_error_occurred')
+        );
+
+        // Display the false response
+        echo json_encode($data); 
+        
+    }
+
+    /**
      * The public method get_messages gets the messages
      * 
      * @since 0.0.8.5
@@ -472,9 +545,11 @@ class Chat {
 
             // Add form validation
             $this->CI->form_validation->set_rules('guest', 'Guest', 'trim|required');
+            $this->CI->form_validation->set_rules('timezone', 'Timezone', 'trim|required');
 
             // Get data
             $guest = $this->CI->input->post('guest', TRUE);
+            $timezone = $this->CI->input->post('timezone', TRUE);
 
             // Verify if the submitted data is correct
             if ( $this->CI->form_validation->run() !== false ) {
@@ -539,13 +614,13 @@ class Chat {
                             update_crm_chatbot_websites_guests_meta($guest_id, 'guest_ip', $this->CI->input->ip_address());
 
                             // Verify if the timezone exists
-                            if ( !empty($params['timezone']) ) {
+                            if ( !empty($timezone) ) {
 
                                 // Verify if the timezone is valid
-                                if ( in_array($params['timezone'], timezone_identifiers_list()) ) {
+                                if ( in_array($timezone, timezone_identifiers_list()) ) {
 
                                     // Save the guest's timezone
-                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_timezone', $params['timezone']);                    
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_timezone', $timezone);                    
 
                                 }
 

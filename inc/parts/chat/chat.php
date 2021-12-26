@@ -76,18 +76,7 @@ if ( !function_exists('crm_chatbot_get_chat_from_parts') ) {
                     exit();   
                     
                 }
-
-                // Verify if the website session already exists
-                if ( $CI->session->userdata('crm_chatbot_website_session') ) {
-
-                    // Remove the website session
-                    $CI->session->unset_userdata('crm_chatbot_website_session');
-
-                }
-
-                // Register the website session
-                $CI->session->set_userdata('crm_chatbot_website_session', $CI->input->get('get_chat', TRUE));
-
+                
                 // Verify if a message should be sent
                 if ( is_numeric($CI->input->get('trigger', TRUE)) && ($CI->input->get('trigger_parent', TRUE) === 'send_message') && ($CI->input->get('trigger_name', TRUE) === 'message') ) {
 
@@ -97,6 +86,14 @@ if ( !function_exists('crm_chatbot_get_chat_from_parts') ) {
                     // Send message
                     crm_chatbot_send_message_from_parts($the_website[0]);
 
+                } else if ( is_numeric($CI->input->get('bot', TRUE)) && $CI->input->get('connector', TRUE) && $CI->input->get('guest', TRUE) ) {
+
+                    // Require the Send Message Part Inc file
+                    require_once CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/parts/message/send.php';
+
+                    // Send bot
+                    crm_chatbot_send_bot_from_parts(array('website_id' => $the_website[0]['website_id'], 'user_id' => $the_website[0]['user_id'], 'bot' => $CI->input->get('bot', TRUE), 'connector' => $CI->input->get('connector', TRUE), 'guest' => $CI->input->get('guest', TRUE), 'timezone' => $CI->input->get('timezone', TRUE)));
+                    
                 }
 
                 // Views params

@@ -17,7 +17,7 @@ namespace CmsBase\User\Apps\Collection\Crm_chatbot;
 // Define the constants
 defined('BASEPATH') OR exit('No direct script access allowed');
 defined('CMS_BASE_USER_APPS_CRM_CHATBOT') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT', CMS_BASE_USER . 'apps/collection/crm_chatbot/');
-defined('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION', '0.0.2');
+defined('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION', '0.0.4');
 
 // Define the namespaces to use
 use CmsBase\User\Interfaces as CmsBaseUserInterfaces;
@@ -323,7 +323,7 @@ class Main implements CmsBaseUserInterfaces\Apps {
             'app_slug' => 'crm_chatbot',
             'app_icon' => md_the_admin_icon(array('icon' => 'chat_small')),
             'version' => CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION,
-            'update_url' => 'https://github.com/scrisoft/crm_chatbot/blob/main/update',
+            'update_url' => 'https://raw.githubusercontent.com/scrisoft/crm_chatbot/main/update',
             'update_code' => FALSE,
             'min_version' => '0.0.8.5',
             'max_version' => '0.0.8.5'
