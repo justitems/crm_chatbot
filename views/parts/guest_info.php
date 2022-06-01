@@ -56,14 +56,16 @@
                                                 <?php echo the_crm_chatbot_websites_guests_meta($guest_id, 'guest_ip'); ?>
                                             </span>
                                         </li> 
+                                        <?php if ( the_crm_chatbot_websites_guests_meta($guest_id, 'guest_city_name') ) { ?>
                                         <li class="d-flex justify-content-between align-items-center">
                                             <p>
                                                 <?php echo $this->lang->line('crm_chatbot_location'); ?>
                                             </p>
                                             <span>
-                                                Bucharest / Romania
+                                                <?php echo the_crm_chatbot_websites_guests_meta($guest_id, 'guest_city_name'); ?> / <?php echo the_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_name'); ?>
                                             </span>
-                                        </li>                                                                                
+                                        </li>    
+                                        <?php } ?>                                                                                 
                                     </ul>
                                 </div>
                             </div>
@@ -125,6 +127,7 @@
                         </div>
                     </div>
                     <?php } ?>
+                    <?php if ( the_option('app_crm_chatbot_google_map_enabled') && the_option('app_crm_chatbot_google_map_api_key') && the_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude') && the_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude') ) { ?>
                     <div class="card mb-3 theme-box-1 theme-card-box-1">
                         <div class="card-header">
                             <div class="row">
@@ -141,23 +144,24 @@
                                 <div class="col-12">
                                     <div id="crm-chatbot-thread-info-guest-map"></div>
                                     <script
-                                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu_RD2Rlt0dKIIWr73L0agPWwmSIRNzyY&callback=initMap&libraries=&v=weekly&channel=2"
+                                    src="https://maps.googleapis.com/maps/api/js?key=<?php echo the_option('app_crm_chatbot_google_map_api_key'); ?>&callback=initMap&libraries=&v=weekly&channel=2"
                                     async
                                     ></script>
                                     <script>
                                     let map;
 
                                     function initMap() {
-                                    map = new google.maps.Map(document.getElementById("crm-chatbot-thread-info-guest-map"), {
-                                        center: { lat: -34.397, lng: 150.644 },
-                                        zoom: 8,
-                                    });
+                                        map = new google.maps.Map(document.getElementById("crm-chatbot-thread-info-guest-map"), {
+                                            center: { lat: <?php echo the_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude'); ?>, lng: <?php echo the_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude'); ?> },
+                                            zoom: 8
+                                        });
                                     }
                                     </script>
                                 </div>
                             </div>
                         </div>
                     </div> 
+                    <?php } ?>
                     <div class="card card-seen-pages mb-3 theme-box-1 theme-card-box-1">
                         <div class="card-header">
                             <div class="row">
