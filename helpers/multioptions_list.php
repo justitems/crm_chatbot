@@ -85,7 +85,7 @@ class Multioptions_list {
                     'role_id',
                     array(
                         'role_id' => $role,
-                        'user_id' => $this->CI->user_id
+                        'user_id' => md_the_user_id()
                     )
                 );
 
@@ -108,7 +108,7 @@ class Multioptions_list {
                 if ( $type === 'list' ) {
 
                     // Get all enabled websites
-                    $the_enabled_websites = the_crm_team_roles_multioptions_list($this->CI->user_id, $role, 'crm_chatbot_allowed_websites');
+                    $the_enabled_websites = the_crm_team_roles_multioptions_list(md_the_user_id(), $role, 'crm_chatbot_allowed_websites');
 
                     // Websites container
                     $websites = array();
@@ -143,7 +143,7 @@ class Multioptions_list {
                         'crm_chatbot_websites',
                         '*',
                         array(
-                            'user_id' => $this->CI->user_id
+                            'user_id' => md_the_user_id()
                         ),
                         array(),
                         $like,
@@ -162,7 +162,7 @@ class Multioptions_list {
                             'crm_chatbot_websites',
                             'COUNT(website_id) as total',
                             array(
-                                'user_id' => $this->CI->user_id
+                                'user_id' => md_the_user_id()
                             ),
                             array(),
                             $like
@@ -215,18 +215,18 @@ class Multioptions_list {
                     if ( ($option === 'crm_chatbot_allowed_websites') && is_numeric($item) ) {
 
                         // Verify if the item exists and if the user is owner
-                        if ( $this->CI->base_model->the_data_where('crm_chatbot_websites', '*', array('website_id' => $item, 'user_id' => $this->CI->user_id) ) ) {
+                        if ( $this->CI->base_model->the_data_where('crm_chatbot_websites', '*', array('website_id' => $item, 'user_id' => md_the_user_id()) ) ) {
 
                             // Verify if the option is enabled
                             if ( $enabled ) {
 
                                 // Try to disable the website
-                                if ( delete_crm_team_roles_multioptions_list($this->CI->user_id, $role, 'crm_chatbot_allowed_websites', $item) ) {
+                                if ( delete_crm_team_roles_multioptions_list(md_the_user_id(), $role, 'crm_chatbot_allowed_websites', $item) ) {
 
                                     // Delete the user's cache
-                                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_list');
-                                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
-                                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_threads_teams_members');
+                                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_list');
+                                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
+                                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_threads_teams_members');
 
                                     // Prepare the success message
                                     $data = array(
@@ -254,15 +254,15 @@ class Multioptions_list {
                             } else {
 
                                 // Try to enable the website
-                                if ( save_crm_team_roles_multioptions_list($this->CI->user_id, $role, 'crm_chatbot_allowed_websites', $item) ) {
+                                if ( save_crm_team_roles_multioptions_list(md_the_user_id(), $role, 'crm_chatbot_allowed_websites', $item) ) {
 
                                     // Delete the user's cache
-                                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_list');
-                                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
-                                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_threads_teams_members');
-                                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_guests_list');
-                                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_emails_list');
-                                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_numbers_list');
+                                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_list');
+                                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
+                                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_threads_teams_members');
+                                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_guests_list');
+                                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_emails_list');
+                                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_numbers_list');
 
                                     // Prepare the success message
                                     $data = array(

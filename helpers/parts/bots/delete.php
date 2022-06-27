@@ -95,7 +95,7 @@ class Delete {
                 '*',
                 array(
                     'bot_id' => $params['bot'],
-                    'user_id' => $this->CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 
@@ -139,7 +139,7 @@ class Delete {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['bot'], 
                                 'metas' => $metas
@@ -216,8 +216,8 @@ class Delete {
             $this->CI->base_model->delete('crm_chatbot_bots_elements_links', array('bot_id' => $bot_id) );
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_bots_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_bots_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             // Delete all bot's records
             md_run_hook(

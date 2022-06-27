@@ -25,7 +25,7 @@ use CmsBase\User\Apps\Collection\Crm_chatbot\Helpers\Parts\Bot as CmsBaseUserApp
 md_include_component_file(CMS_BASE_USER . 'inc/general.php');
 
 /*
- * Ajaz class processes the app's chat calls
+ * Ajax class processes the app's chat calls
  * 
  * @author Scrisoft
  * @package CRM
@@ -358,12 +358,14 @@ class Chat {
                 $this->CI->form_validation->set_rules('bot', 'Bot', 'trim|required');
                 $this->CI->form_validation->set_rules('connector', 'Connector', 'trim|required');
                 $this->CI->form_validation->set_rules('timezone', 'Timezone', 'trim|required');
+                $this->CI->form_validation->set_rules('urls', 'Urls', 'trim');
 
                 // Get data
                 $guest = $this->CI->input->post('guest', TRUE);
                 $bot = $this->CI->input->post('bot', TRUE);
                 $connector = $this->CI->input->post('connector', TRUE);
                 $timezone = $this->CI->input->post('timezone', TRUE);
+                $urls = $this->CI->input->post('urls', TRUE);
 
                 // Verify if the submitted data is correct
                 if ( $this->CI->form_validation->run() !== false ) {
@@ -383,8 +385,8 @@ class Chat {
                         // Require the Send Message Part Inc file
                         require_once CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/parts/message/send.php';
 
-                        // Send bot
-                        crm_chatbot_send_bot_from_parts(array('website_id' => $the_website[0]['website_id'], 'user_id' => $the_website[0]['user_id'], 'bot' => $bot, 'connector' => $connector, 'guest' => $guest, 'timezone' => $timezone));
+                        // Send bot 
+                        crm_chatbot_send_bot_from_parts(array('website_id' => $the_website[0]['website_id'], 'user_id' => $the_website[0]['user_id'], 'bot' => $bot, 'connector' => $connector, 'guest' => $guest, 'timezone' => $timezone, 'visited_urls' => $urls));
                         exit(); 
 
                     }
@@ -621,69 +623,6 @@ class Chat {
 
                                     // Save the guest's timezone
                                     update_crm_chatbot_websites_guests_meta($guest_id, 'guest_timezone', $timezone);                    
-
-                                }
-
-                            }
-
-                            // Verify if the ip2location is enabled
-                            if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
-
-                                // Verify if api key exists
-                                if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
-
-                                    // Get guest information
-                                    $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $this->CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
-
-                                    // Verify if response key exists
-                                    if ( !empty($the_guest_info['response']) ) {
-
-                                        // Verify if response value is OK
-                                        if ( $the_guest_info['response'] === 'OK' ) {
-
-                                            // Verify if latitude exists
-                                            if ( !empty($the_guest_info['latitude']) ) {
-
-                                                // Save the latitude
-                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude', $the_guest_info['latitude']); 
-
-                                            }
-
-                                            // Verify if longitude exists
-                                            if ( !empty($the_guest_info['longitude']) ) {
-
-                                                // Save the longitude
-                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude', $the_guest_info['longitude']); 
-
-                                            }
-                                            
-                                            // Verify if country code exists
-                                            if ( !empty($the_guest_info['country_code']) ) {
-
-                                                // Save the country code
-                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_code', $the_guest_info['country_code']); 
-
-                                            }
-                                            
-                                            // Verify if country name exists
-                                            if ( !empty($the_guest_info['country_name']) ) {
-
-                                                // Save the country name
-                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_name', $the_guest_info['country_name']); 
-
-                                            }
-                                            
-                                            // Verify if city name exists
-                                            if ( !empty($the_guest_info['city_name']) ) {
-
-                                                // Save the city name
-                                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_city_name', $the_guest_info['city_name']); 
-
-                                            }                             
-
-                                        }
-
-                                    }
 
                                 }
 

@@ -224,7 +224,7 @@ class Create {
 
         // Prepare the bot
         $bot_params = array(
-            'user_id' => $this->CI->user_id,
+            'user_id' => md_the_user_id(),
             'bot_name' => trim($params['name']),
             'status' => 1,
             'created' => time()
@@ -361,7 +361,7 @@ class Create {
             }
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_bots_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_bots_list');
 
             // Verify if member's name exists
             if ( isset($member['member_name']) ) {
@@ -397,7 +397,7 @@ class Create {
                 // Create the activity
                 create_crm_activity(
                     array(
-                        'user_id' => $this->CI->user_id,
+                        'user_id' => md_the_user_id(),
                         'activity_type' => 'crm_chatbot',
                         'for_id' => $bot_id, 
                         'metas' => $metas
@@ -406,7 +406,7 @@ class Create {
                 );
 
                 // Delete the user's cache
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             }
 
@@ -425,7 +425,7 @@ class Create {
                     }
 
                     // Verify if the category exists
-                    if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => $this->CI->user_id ) ) ) {
+                    if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => md_the_user_id() ) ) ) {
 
                         // Save the category
                         if ( !$this->CI->base_model->insert('crm_chatbot_bots_categories', array('bot_id' => $bot_id, 'category_id' => $category) ) ) {
@@ -519,7 +519,7 @@ class Create {
             $this->CI->base_model->delete('crm_chatbot_bots_elements_links', array('bot_id' => $bot_id) );
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_bots_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_bots_list');
 
             // Delete all bot's records
             md_run_hook(

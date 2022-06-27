@@ -37,7 +37,7 @@ if (!function_exists('the_crm_chatbot_template_dropdown_websites_from_parts')) {
             'crm_chatbot_websites',
             '*',
             array(
-                'user_id' => $CI->user_id
+                'user_id' => md_the_user_id()
             ),
             array(),
             $like,
@@ -185,7 +185,7 @@ if (!function_exists('the_crm_chatbot_template_dropdown_website_select_from_part
             '*',
             array(
                 'website_id' => $params['item'],
-                'user_id' => $CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 

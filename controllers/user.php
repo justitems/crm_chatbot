@@ -64,7 +64,7 @@ class User {
         set_css_urls(array('stylesheet', base_url('assets/base/user/apps/collection/crm-chatbot/styles/css/main.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
 
         // Set the Default Quick Guide Js
-        set_js_urls(array(base_url('assets/base/user/default/js/quick-guide.js?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION)));        
+        set_js_urls(array(base_url('assets/base/user/default/js/libs/texts/quick-guide.js?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION)));        
 
         // Verify if is a page
         if ( $this->CI->input->get('p', TRUE) && ($this->CI->input->get('p', TRUE) !== 'threads') ) {
@@ -158,7 +158,7 @@ class User {
                             '*',
                             array(
                                 'guest_id' => $this->CI->input->get('guest', TRUE),
-                                'user_id' => $this->CI->user_id
+                                'user_id' => md_the_user_id()
                             )
                         );
 
@@ -272,7 +272,7 @@ class User {
                             users.username AS user_username, users.first_name AS user_first_name, users.last_name AS user_last_name',
                             array(
                                 'crm_chatbot_websites.website_id' => $this->CI->input->get('website_info', TRUE),
-                                'crm_chatbot_websites.user_id' => $this->CI->user_id
+                                'crm_chatbot_websites.user_id' => md_the_user_id()
                             ),
                             array(),
                             array(),
@@ -310,7 +310,7 @@ class User {
                                 if ( isset($member['role_id']) ) {
 
                                     // Verify if the website is allowed
-                                    if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website[0]['website']) ) {
+                                    if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website[0]['website']) ) {
 
                                         // Display 404 page
                                         show_404(); 
@@ -323,22 +323,13 @@ class User {
 
                             // Set the CRM Chatbot Website Info Js
                             set_js_urls(array(base_url('assets/base/user/apps/collection/crm-chatbot/js/website-info.js?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION)));
-                            
-                            // User date
-                            $user_date = the_crm_date_format($this->CI->user_id);
-
-                            // User time
-                            $user_time = the_crm_time_format($this->CI->user_id);
-
-                            // Set wanted date format
-                            $date_format = str_replace(array('dd', 'mm', 'yyyy'), array('d', 'm', 'Y'), $user_date);
 
                             // Params for view
                             $params = array(
                                 'website_id' => $the_website[0]['website_id'],
                                 'website' => $the_website[0],
                                 'status' => $the_website[0]['status'],
-                                'created' => (($the_website[0]['created'] + 86400) < time())?date($date_format, $the_website[0]['created']):the_crm_calculate_time($this->CI->user_id, $the_website[0]['created'])
+                                'created' => md_the_user_time(md_the_user_id(), $the_website[0]['created'])
                             );
 
                             // Set the author
@@ -381,7 +372,7 @@ class User {
                             '*',
                             array(
                                 'website_id' => $this->CI->input->get('website', TRUE),
-                                'user_id' => $this->CI->user_id
+                                'user_id' => md_the_user_id()
                             )
                         );
 
@@ -398,7 +389,7 @@ class User {
                                 if ( isset($member['role_id']) ) {
 
                                     // Verify if the website is allowed
-                                    if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website[0]['website']) ) {
+                                    if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website[0]['website']) ) {
 
                                         // Display 404 page
                                         show_404(); 
@@ -419,7 +410,7 @@ class User {
                             set_css_urls(array('stylesheet', base_url('assets/base/user/apps/collection/crm-chatbot/styles/css/website.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
 
                             // Set the Default Upload Box Styles
-                            set_css_urls(array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all')); 
+                            set_css_urls(array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all')); 
 
                             // Set the CRM Chatbot Website Js
                             set_js_urls(array(base_url('assets/base/user/apps/collection/crm-chatbot/js/website.js?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION))); 
@@ -451,7 +442,7 @@ class User {
                     } else {
 
                         // Set the Default Upload Box Styles
-                        set_css_urls(array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
+                        set_css_urls(array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
 
                         // Set the Default Upload Box Js
                         set_js_urls(array(base_url('assets/base/user/default/js/upload-box.js?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION))); 
@@ -484,7 +475,7 @@ class User {
                         set_css_urls(array('stylesheet', base_url('assets/base/user/apps/collection/crm-chatbot/styles/css/bot-builder.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
 
                         // Set the Default Upload Box Styles
-                        set_css_urls(array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));                        
+                        set_css_urls(array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));                        
 
                         // Set the jquery.flowchart Styles
                         set_css_urls(array('stylesheet', base_url('assets/base/user/apps/collection/crm-chatbot/flowchart/jquery.flowchart.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
@@ -532,7 +523,7 @@ class User {
                             users.username AS user_username, users.first_name AS user_first_name, users.last_name AS user_last_name',
                             array(
                                 'crm_chatbot_bots.bot_id' => $this->CI->input->get('bot_info', TRUE),
-                                'crm_chatbot_bots.user_id' => $this->CI->user_id
+                                'crm_chatbot_bots.user_id' => md_the_user_id()
                             ),
                             array(),
                             array(),
@@ -562,22 +553,13 @@ class User {
 
                             // Set the CRM Chatbot Bot Info Js
                             set_js_urls(array(base_url('assets/base/user/apps/collection/crm-chatbot/js/bot-info.js?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION)));
-                            
-                            // User date
-                            $user_date = the_crm_date_format($this->CI->user_id);
-
-                            // User time
-                            $user_time = the_crm_time_format($this->CI->user_id);
-
-                            // Set wanted date format
-                            $date_format = str_replace(array('dd', 'mm', 'yyyy'), array('d', 'm', 'Y'), $user_date);
 
                             // Params for view
                             $params = array(
                                 'bot_id' => $the_bot[0]['bot_id'],
                                 'bot' => $the_bot[0],
                                 'status' => $the_bot[0]['status'],
-                                'created' => (($the_bot[0]['created'] + 86400) < time())?date($date_format, $the_bot[0]['created']):the_crm_calculate_time($this->CI->user_id, $the_bot[0]['created'])
+                                'created' => md_the_user_time(md_the_user_id(), $the_bot[0]['created'])
                             );
 
                             // Set the author
@@ -614,7 +596,7 @@ class User {
                             '*',
                             array(
                                 'bot_id' => $this->CI->input->get('bot', TRUE),
-                                'user_id' => $this->CI->user_id
+                                'user_id' => md_the_user_id()
                             )
                         );
 
@@ -628,7 +610,7 @@ class User {
                             set_css_urls(array('stylesheet', base_url('assets/base/user/apps/collection/crm-chatbot/styles/css/bot-builder.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
 
                             // Set the Default Upload Box Styles
-                            set_css_urls(array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));                        
+                            set_css_urls(array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));                        
 
                             // Set the jquery.flowchart Styles
                             set_css_urls(array('stylesheet', base_url('assets/base/user/apps/collection/crm-chatbot/flowchart/jquery.flowchart.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
@@ -738,7 +720,7 @@ class User {
                             users.username AS user_username, users.first_name AS user_first_name, users.last_name AS user_last_name',
                             array(
                                 'crm_chatbot_quick_replies.reply_id' => $this->CI->input->get('reply_info', TRUE),
-                                'crm_chatbot_quick_replies.user_id' => $this->CI->user_id
+                                'crm_chatbot_quick_replies.user_id' => md_the_user_id()
                             ),
                             array(),
                             array(),
@@ -776,7 +758,7 @@ class User {
                                 if ( isset($member['role_id']) ) {
 
                                     // Verify if the reply is allowed
-                                    if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_replys', $the_reply[0]['reply']) ) {
+                                    if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_replys', $the_reply[0]['reply']) ) {
 
                                         // Display 404 page
                                         show_404(); 
@@ -789,22 +771,13 @@ class User {
 
                             // Set the CRM Chatbot Reply Info Js
                             set_js_urls(array(base_url('assets/base/user/apps/collection/crm-chatbot/js/reply-info.js?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION)));
-                            
-                            // User date
-                            $user_date = the_crm_date_format($this->CI->user_id);
-
-                            // User time
-                            $user_time = the_crm_time_format($this->CI->user_id);
-
-                            // Set wanted date format
-                            $date_format = str_replace(array('dd', 'mm', 'yyyy'), array('d', 'm', 'Y'), $user_date);
 
                             // Params for view
                             $params = array(
                                 'reply_id' => $the_reply[0]['reply_id'],
                                 'reply' => $the_reply[0],
                                 'status' => $the_reply[0]['status'],
-                                'created' => (($the_reply[0]['created'] + 86400) < time())?date($date_format, $the_reply[0]['created']):the_crm_calculate_time($this->CI->user_id, $the_reply[0]['created'])
+                                'created' => md_the_user_time(md_the_user_id(), $the_reply[0]['created'])
                             );
 
                             // Set the author
@@ -841,7 +814,7 @@ class User {
                             '*',
                             array(
                                 'reply_id' => $this->CI->input->get('reply', TRUE),
-                                'user_id' => $this->CI->user_id
+                                'user_id' => md_the_user_id()
                             )
                         );
 
@@ -884,7 +857,7 @@ class User {
                     } else {
 
                         // Set the Default Upload Box Styles
-                        set_css_urls(array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
+                        set_css_urls(array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
 
                         // Set the CRM Chatbot Quick Replies Styles
                         set_css_urls(array('stylesheet', base_url('assets/base/user/apps/collection/crm-chatbot/styles/css/quick-replies.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
@@ -922,13 +895,13 @@ class User {
                     } else {
 
                         // Set the Theme Time Picker Styles
-                        set_css_urls(array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/time-picker.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all')); 
+                        set_css_urls(array('stylesheet', base_url('assets/base/user/default/styles/libs/calendars/css/time-picker.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all')); 
 
                         // Set the CRM Chatbot Overview Styles
                         set_css_urls(array('stylesheet', base_url('assets/base/user/apps/collection/crm-chatbot/styles/css/overview.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));   
                         
                         // Set the Default Minimal Calendar Js
-                        set_js_urls(array(base_url('assets/base/user/default/js/minimal-calendar.js?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION)));
+                        set_js_urls(array(base_url('assets/base/user/default/js/libs/calendars/minimal-calendar.js?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION)));
                         
                         // Set the Apexcharts Js
                         set_js_urls(array('//cdn.jsdelivr.net/npm/apexcharts'));                       
@@ -1004,7 +977,7 @@ class User {
                     'crm_chatbot_websites_threads.*, crm_chatbot_websites.domain',
                     array(
                         'crm_chatbot_websites_threads.thread_id' => $this->CI->input->get('thread', TRUE),
-                        'crm_chatbot_websites_threads.user_id' => $this->CI->user_id
+                        'crm_chatbot_websites_threads.user_id' => md_the_user_id()
                     ),
                     array(),
                     array(),
@@ -1022,7 +995,7 @@ class User {
                     set_css_urls(array('stylesheet', base_url('assets/base/user/apps/collection/crm-chatbot/styles/css/thread.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));     
 
                     // Set the Default Upload Box's Styles
-                    set_css_urls(array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
+                    set_css_urls(array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all'));
                     
                     // Set the Theme Chat Styles
                     set_css_urls(array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/chat.css?ver=' . CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION), 'text/css', 'all')); 
@@ -1138,10 +1111,10 @@ class User {
     protected function the_important_threads() {
 
         // Verify if the cache exists for this query
-        if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_important_threads_number') ) {
+        if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_important_threads_number') ) {
 
             // Set the cache
-            $the_threads = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_important_threads_number');
+            $the_threads = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_important_threads_number');
 
         } else {
 
@@ -1150,16 +1123,16 @@ class User {
                 'crm_chatbot_websites_threads',
                 'COUNT(thread_id) AS total',
                 array(
-                    'user_id' => $this->CI->user_id,
+                    'user_id' => md_the_user_id(),
                     'important >' => 0
                 )
             );
 
             // Save cache
-            md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_important_threads_number', $the_threads);
+            md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_important_threads_number', $the_threads);
 
             // Set saved cronology
-            update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list', 'crm_chatbot_user_' . $this->CI->user_id . '_important_threads_number');
+            update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list', 'crm_chatbot_user_' . md_the_user_id() . '_important_threads_number');
 
         }
 

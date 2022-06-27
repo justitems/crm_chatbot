@@ -37,7 +37,7 @@ if ( !function_exists('the_crm_chatbot_websites_triggers_meta') ) {
         if ( !$user_id ) {
 
             // Set user's ID
-            $user_id = $CI->user_id;
+            $user_id = md_the_user_id();
 
         }
 

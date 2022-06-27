@@ -113,7 +113,7 @@ class Create {
             'crm_chatbot_websites',
             'COUNT(*) AS total',
             array(
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -181,7 +181,7 @@ class Create {
 
             // Prepare the website
             $website_params = array(
-                'user_id' => $this->CI->user_id,
+                'user_id' => md_the_user_id(),
                 'domain' => trim($parse_domain['host']),
                 'url' => trim($params['website_url']),
                 'status' => 1,
@@ -276,7 +276,7 @@ class Create {
                     if ( isset($member['role_id']) ) {
 
                         // Allow to the team's member website access
-                        save_crm_team_roles_multioptions_list($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $website_id);
+                        save_crm_team_roles_multioptions_list(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $website_id);
 
                     }
 
@@ -316,7 +316,7 @@ class Create {
                     // Create the activity
                     create_crm_activity(
                         array(
-                            'user_id' => $this->CI->user_id,
+                            'user_id' => md_the_user_id(),
                             'activity_type' => 'crm_chatbot',
                             'for_id' => $website_id, 
                             'metas' => $metas
@@ -325,17 +325,17 @@ class Create {
                     );
 
                     // Delete the user's cache
-                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
                 }
 
                 // Delete the user's cache
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_list');
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_threads_teams_members');
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_guests_list');
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_emails_list');
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_numbers_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_threads_teams_members');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_guests_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_emails_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_numbers_list');
 
                 // Prepare success response
                 return array(

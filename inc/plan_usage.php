@@ -58,7 +58,7 @@ if ( md_the_option('app_crm_chatbot_enabled') && md_the_plan_feature('app_crm_ch
                 'crm_chatbot_websites',
                 'COUNT(*) AS total',
                 array(
-                    'user_id' => $CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 
@@ -94,7 +94,7 @@ if ( md_the_option('app_crm_chatbot_enabled') && md_the_plan_feature('app_crm_ch
             $allowed_replies = md_the_plan_feature('app_crm_chatbot_allowed_automatic_replies')?md_the_plan_feature('app_crm_chatbot_allowed_automatic_replies'):0; 
             
             // Set done automatic replies
-            $automatic_replies = md_the_user_option($CI->user_id, 'crm_chatbot_automatic_replies');
+            $automatic_replies = md_the_user_option(md_the_user_id(), 'crm_chatbot_automatic_replies');
 
             // The automatic replies container
             $the_automatic_replies = 0;

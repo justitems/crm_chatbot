@@ -31,7 +31,7 @@ if ( !function_exists('the_crm_chatbot_widgets_dashboard_from_parts') ) {
 
         // Set params
         $params = array(
-            'user_id' => $CI->user_id
+            'user_id' => md_the_user_id()
         );
 
         // Set where in
@@ -51,7 +51,7 @@ if ( !function_exists('the_crm_chatbot_widgets_dashboard_from_parts') ) {
                     'crm_chatbot_websites',
                     '*',
                     array(
-                        'user_id' => $CI->user_id
+                        'user_id' => md_the_user_id()
                     )
 
                 );
@@ -66,7 +66,7 @@ if ( !function_exists('the_crm_chatbot_widgets_dashboard_from_parts') ) {
                     foreach ( $the_websites_list as $the_website ) {
 
                         // Verify if the website is allowed
-                        if ( !the_crm_team_roles_multioptions_list_item($CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
+                        if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
                             continue;
                         }
 
@@ -102,10 +102,10 @@ if ( !function_exists('the_crm_chatbot_widgets_dashboard_from_parts') ) {
         if ( (!empty($params['team_member']) && !empty($websites)) || empty($params['team_member']) ) {
 
             // Verify if the cache exists for this query
-            if ( md_the_cache('crm_chatbot_user_' . $CI->user_id . '_newest_threads_' . $parameters_string) ) {
+            if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_newest_threads_' . $parameters_string) ) {
 
                 // Get the threads
-                $the_threads = md_the_cache('crm_chatbot_user_' . $CI->user_id . '_newest_threads_' . $parameters_string);
+                $the_threads = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_newest_threads_' . $parameters_string);
 
             } else {
 
@@ -123,7 +123,7 @@ if ( !function_exists('the_crm_chatbot_widgets_dashboard_from_parts') ) {
                     'crm_chatbot_websites_threads',
                     'crm_chatbot_websites_threads.*, crm_chatbot_websites.domain',
                     array(
-                        'crm_chatbot_websites_threads.user_id' => $CI->user_id
+                        'crm_chatbot_websites_threads.user_id' => md_the_user_id()
                     ),
                     $where_in,
                     array(),
@@ -142,10 +142,10 @@ if ( !function_exists('the_crm_chatbot_widgets_dashboard_from_parts') ) {
                 );
 
                 // Save cache
-                md_create_cache('crm_chatbot_user_' . $CI->user_id . '_newest_threads_' . $parameters_string, $the_threads);
+                md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_newest_threads_' . $parameters_string, $the_threads);
 
                 // Set saved cronology
-                update_crm_cache_cronology_for_user($CI->user_id, 'crm_chatbot_websites_threads_list', 'crm_chatbot_user_' . $CI->user_id . '_newest_threads_' . $parameters_string);
+                update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list', 'crm_chatbot_user_' . md_the_user_id() . '_newest_threads_' . $parameters_string);
 
             }
 

@@ -55,7 +55,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-3 col-12 mb-0">
                                             <div class="theme-box-1">
                                                 <div class="row">
                                                     <div class="col-12">

@@ -42,7 +42,7 @@
                                                 $date = new DateTime("now", new DateTimeZone(the_crm_chatbot_websites_guests_meta($guest_id, 'guest_timezone')) );
 
                                                 // Display time
-                                                echo the_crm_calculate_time($this->user_id, $date->getTimestamp());
+                                                echo md_the_user_time(md_the_user_id(), $date->getTimestamp());
                                                 
                                                 ?>
                                             </span>
@@ -127,7 +127,7 @@
                         </div>
                     </div>
                     <?php } ?>
-                    <?php if ( the_option('app_crm_chatbot_google_map_enabled') && the_option('app_crm_chatbot_google_map_api_key') && the_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude') && the_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude') ) { ?>
+                    <?php if ( md_the_option('app_crm_chatbot_google_map_enabled') && md_the_option('app_crm_chatbot_google_map_api_key') && the_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude') && the_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude') ) { ?>
                     <div class="card mb-3 theme-box-1 theme-card-box-1">
                         <div class="card-header">
                             <div class="row">
@@ -144,7 +144,7 @@
                                 <div class="col-12">
                                     <div id="crm-chatbot-thread-info-guest-map"></div>
                                     <script
-                                    src="https://maps.googleapis.com/maps/api/js?key=<?php echo the_option('app_crm_chatbot_google_map_api_key'); ?>&callback=initMap&libraries=&v=weekly&channel=2"
+                                    src="https://maps.googleapis.com/maps/api/js?key=<?php echo md_the_option('app_crm_chatbot_google_map_api_key'); ?>&callback=initMap&libraries=&v=weekly&channel=2"
                                     async
                                     ></script>
                                     <script>

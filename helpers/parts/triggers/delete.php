@@ -84,7 +84,7 @@ class Delete {
                 '*',
                 array(
                     'trigger_id' => $params['trigger'],
-                    'user_id' => $this->CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 
@@ -131,7 +131,7 @@ class Delete {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['trigger'], 
                                 'metas' => $metas
@@ -186,8 +186,8 @@ class Delete {
             $this->CI->base_model->delete('crm_chatbot_websites_triggers_guests', array('trigger_id' => $trigger_id) );    
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_triggers_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_triggers_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             // Delete all trigger's records
             md_run_hook(

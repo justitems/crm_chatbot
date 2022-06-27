@@ -21,7 +21,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 use CmsBase\User\Apps\Collection\Crm_chatbot\Helpers as CmsBaseUserAppsCollectionCrm_chatbotHelpers;
 
 /*
- * Ajaz class processes the app's ajax calls
+ * Ajax class processes the app's ajax calls
  * 
  * @author Scrisoft
  * @package CRM

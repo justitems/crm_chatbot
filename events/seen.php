@@ -107,7 +107,7 @@ class Seen implements CmsBaseUserAppsCollectionCrm_chatbotInterfaces\Events {
             if ( the_crm_chatbot_websites_triggers_meta($params['trigger'], 'send_message', 'message') ) {
 
                 // Get the bot
-                $the_bot = $this->CI->base_model->the_data_where('crm_chatbot_bots', '*', array('bot_id' => the_crm_chatbot_websites_triggers_meta($params['trigger'], 'send_message', 'message', TRUE), 'user_id' => $this->CI->user_id) );
+                $the_bot = $this->CI->base_model->the_data_where('crm_chatbot_bots', '*', array('bot_id' => the_crm_chatbot_websites_triggers_meta($params['trigger'], 'send_message', 'message', TRUE), 'user_id' => md_the_user_id()) );
 
                 // Verify if the bot exists
                 if ( $the_bot ) {
@@ -344,7 +344,7 @@ class Seen implements CmsBaseUserAppsCollectionCrm_chatbotInterfaces\Events {
                     } 
                     
                     // Verify if the bot exists
-                    if ( !$this->CI->base_model->the_data_where('crm_chatbot_bots', '*', array('bot_id' => $actions_field['id'], 'user_id' => $this->CI->user_id) ) ) {
+                    if ( !$this->CI->base_model->the_data_where('crm_chatbot_bots', '*', array('bot_id' => $actions_field['id'], 'user_id' => md_the_user_id()) ) ) {
 
                         // Prepare error response
                         return array(
@@ -493,7 +493,7 @@ class Seen implements CmsBaseUserAppsCollectionCrm_chatbotInterfaces\Events {
             if ( the_crm_chatbot_websites_triggers_meta($params['trigger'], 'send_message', 'message') ) {
 
                 // Get the bot
-                $the_bot = $this->CI->base_model->the_data_where('crm_chatbot_bots', '*', array('bot_id' => the_crm_chatbot_websites_triggers_meta($params['trigger'], 'send_message', 'message', TRUE), 'user_id' => $this->CI->user_id) );
+                $the_bot = $this->CI->base_model->the_data_where('crm_chatbot_bots', '*', array('bot_id' => the_crm_chatbot_websites_triggers_meta($params['trigger'], 'send_message', 'message', TRUE), 'user_id' => md_the_user_id()) );
 
                 // Verify if the bot exists
                 if ( $the_bot ) {

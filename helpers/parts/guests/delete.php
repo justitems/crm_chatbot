@@ -95,7 +95,7 @@ class Delete {
                 '*',
                 array(
                     'guest_id' => $params['guest'],
-                    'user_id' => $this->CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 
@@ -139,7 +139,7 @@ class Delete {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['guest'], 
                                 'metas' => $metas
@@ -225,13 +225,13 @@ class Delete {
             }
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_guests_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_guests_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_visited_urls_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_emails_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_numbers_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_guests_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_guests_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_visited_urls_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_emails_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_numbers_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             // Delete all guest's records
             md_run_hook(

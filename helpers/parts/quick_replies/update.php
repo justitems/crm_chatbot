@@ -95,7 +95,7 @@ class Update {
         }
 
         // Get the quick reply
-        $the_quick_reply = $this->CI->base_model->the_data_where('crm_chatbot_quick_replies', '*', array('reply_id' => $params['reply'], 'user_id' => $this->CI->user_id) );
+        $the_quick_reply = $this->CI->base_model->the_data_where('crm_chatbot_quick_replies', '*', array('reply_id' => $params['reply'], 'user_id' => md_the_user_id()) );
 
         // Verify if the quick reply exists
         if ( !$the_quick_reply ) {
@@ -239,7 +239,7 @@ class Update {
                 '*',
                 array(
                     'bot_id' => $params['response_bot'],
-                    'user_id' => $this->CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 
@@ -285,7 +285,7 @@ class Update {
         if ( $update ) {
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_quick_replies_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_quick_replies_list');
 
             // Verify if member's name exists
             if ( isset($member['member_name']) ) {
@@ -321,7 +321,7 @@ class Update {
                 // Create the activity
                 create_crm_activity(
                     array(
-                        'user_id' => $this->CI->user_id,
+                        'user_id' => md_the_user_id(),
                         'activity_type' => 'crm_chatbot',
                         'for_id' => $params['reply'], 
                         'metas' => $metas
@@ -346,7 +346,7 @@ class Update {
                     }
 
                     // Verify if the category exists
-                    if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => $this->CI->user_id ) ) ) {
+                    if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => md_the_user_id() ) ) ) {
 
                         // Save the category
                         if ( !$this->CI->base_model->insert('crm_chatbot_quick_replies_categories', array('reply_id' => $params['reply'], 'category_id' => $category) ) ) {

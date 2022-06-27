@@ -374,7 +374,7 @@ class Quick_replies {
                     '*',
                     array(
                         'reply_id' => $reply,
-                        'user_id' => $this->CI->user_id
+                        'user_id' => md_the_user_id()
                     )
                 );
 
@@ -398,7 +398,7 @@ class Quick_replies {
                             echo json_encode($data);
                             
                             // Delete the user's cache
-                            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_quick_replies_list');
+                            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_quick_replies_list');
 
                             // Get team's member
                             $member = the_crm_current_team_member();
@@ -437,7 +437,7 @@ class Quick_replies {
                                 // Create the activity
                                 create_crm_activity(
                                     array(
-                                        'user_id' => $this->CI->user_id,
+                                        'user_id' => md_the_user_id(),
                                         'activity_type' => 'crm_chatbot',
                                         'for_id' => $reply, 
                                         'metas' => $metas
@@ -478,7 +478,7 @@ class Quick_replies {
                             echo json_encode($data);         
                             
                             // Delete the user's cache
-                            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_quick_replies_list');
+                            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_quick_replies_list');
 
                             // Get team's member
                             $member = the_crm_current_team_member();
@@ -517,7 +517,7 @@ class Quick_replies {
                                 // Create the activity
                                 create_crm_activity(
                                     array(
-                                        'user_id' => $this->CI->user_id,
+                                        'user_id' => md_the_user_id(),
                                         'activity_type' => 'crm_chatbot',
                                         'for_id' => $reply, 
                                         'metas' => $metas

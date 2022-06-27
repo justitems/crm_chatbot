@@ -98,7 +98,7 @@ class Info {
 
                 // Set where
                 $where = array(
-                    'crm_chatbot_websites_threads.user_id' => $this->CI->user_id,
+                    'crm_chatbot_websites_threads.user_id' => md_the_user_id(),
                     'crm_chatbot_websites_messages.reply_id' => $reply
                 );        
 
@@ -116,7 +116,7 @@ class Info {
                             'crm_chatbot_websites',
                             '*',
                             array(
-                                'user_id' => $this->CI->user_id
+                                'user_id' => md_the_user_id()
                             )
 
                         );
@@ -131,7 +131,7 @@ class Info {
                             foreach ( $the_websites_list as $the_website ) {
 
                                 // Verify if the website is allowed
-                                if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
+                                if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
                                     continue;
                                 }
 
@@ -321,7 +321,7 @@ class Info {
 
                 // Set where
                 $where = array(
-                    'crm_chatbot_websites_threads.user_id' => $this->CI->user_id,
+                    'crm_chatbot_websites_threads.user_id' => md_the_user_id(),
                     'crm_chatbot_websites_messages.bot_id' => $bot
                 );        
 
@@ -339,7 +339,7 @@ class Info {
                             'crm_chatbot_websites',
                             '*',
                             array(
-                                'user_id' => $this->CI->user_id
+                                'user_id' => md_the_user_id()
                             )
 
                         );
@@ -354,7 +354,7 @@ class Info {
                             foreach ( $the_websites_list as $the_website ) {
 
                                 // Verify if the website is allowed
-                                if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
+                                if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
                                     continue;
                                 }
 

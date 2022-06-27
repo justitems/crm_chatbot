@@ -34,7 +34,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-3 col-12 mb-0">
                                             <div class="btn-group crm-chatbot-add-quick-reply default-button-new theme-box-1" role="group" aria-label="Button group with nested dropdown">
                                                 <a href="<?php echo site_url('user/app/crm_chatbot?p=quick_replies&new=1'); ?>" class="btn btn-secondary btn-crm-chatbot-new-quick-reply theme-background-new theme-font-2">
                                                     <?php echo md_the_user_icon(array('icon' => 'add_comment')); ?>
@@ -44,7 +44,7 @@
                                                     <button type="button" id="" class="btn btn-secondary dropdown-toggle theme-dropdown-icon-1 theme-background-new" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown">
                                                         <?php echo md_the_user_icon(array('icon' => 'arrow_down', 'class' => 'float-none theme-dropdown-arrow-icon')); ?>
                                                     </button>
-                                                    <div class="dropdown-menu" aria-labelledby="crm-chatbot-import-quick-replies" style="">
+                                                    <div class="dropdown-menu" aria-labelledby="crm-chatbot-import-quick-replies">
                                                         <a href="#" class="dropdown-item theme-color-black" data-toggle="modal" data-target="#crm-chatbot-import-quick-replies-modal">
                                                             <?php echo md_the_user_icon(array('icon' => 'import', 'class' => 'theme-color-black')); ?>
                                                             <?php echo $this->lang->line('crm_chatbot_import'); ?>

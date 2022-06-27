@@ -1,4 +1,4 @@
-<div class="col-xl-10 col-lg-10 col-md-9 crm-chatbot-activities">
+<div class="col-xl-10 col-lg-10 col-md-9 pb-3 crm-chatbot-activities">
     <div class="row">
         <div class="col-12 theme-tabs">
             <ul class="nav nav-tabs crm-tabs" id="crm-chatbot-list-tabs" role="tablist">

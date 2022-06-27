@@ -95,7 +95,7 @@ class Create {
         }
         
         // Get the website
-        if ( !$this->CI->base_model->the_data_where('crm_chatbot_websites', '*', array('website_id' => $params['website'], 'user_id' => $this->CI->user_id) ) ) {
+        if ( !$this->CI->base_model->the_data_where('crm_chatbot_websites', '*', array('website_id' => $params['website'], 'user_id' => md_the_user_id()) ) ) {
 
             // Prepare error response
             return array(
@@ -203,7 +203,7 @@ class Create {
 
         // Trigger container
         $trigger_params = array(
-            'user_id' => $this->CI->user_id,
+            'user_id' => md_the_user_id(),
             'website_id' => $params['website'],
             'trigger_name' => $params['trigger_name'],
             'event_slug' => $params['event_slug'],
@@ -263,7 +263,7 @@ class Create {
                 // Create the activity
                 create_crm_activity(
                     array(
-                        'user_id' => $this->CI->user_id,
+                        'user_id' => md_the_user_id(),
                         'activity_type' => 'crm_chatbot',
                         'for_id' => $trigger_id, 
                         'metas' => $metas
@@ -272,7 +272,7 @@ class Create {
                 );
 
                 // Delete the user's cache
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             }
 
@@ -311,7 +311,7 @@ class Create {
             }
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_triggers_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_triggers_list');
             delete_crm_cache_cronology_for_user($params['website'], 'crm_chatbot_triggers_chat');
 
             // Prepare the success response

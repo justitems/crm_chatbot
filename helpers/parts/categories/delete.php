@@ -84,10 +84,10 @@ class Delete {
         }
 
         // Get the category
-        $the_category = $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $params['category'], 'user_id' => $this->CI->user_id ) );
+        $the_category = $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $params['category'], 'user_id' => md_the_user_id() ) );
         
         // Try to delete the category
-        if ( $this->CI->base_model->delete('crm_chatbot_categories', array('category_id' => $params['category'], 'user_id' => $this->CI->user_id)) ) {
+        if ( $this->CI->base_model->delete('crm_chatbot_categories', array('category_id' => $params['category'], 'user_id' => md_the_user_id())) ) {
 
             // Delete the category's replies
             $this->CI->base_model->delete('crm_chatbot_quick_replies_categories', array('category_id' => $params['category']));
@@ -107,7 +107,7 @@ class Delete {
             );
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_categories_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_categories_list');
 
             // Get member
             $member = the_crm_current_team_member();
@@ -146,7 +146,7 @@ class Delete {
                 // Create the activity
                 create_crm_activity(
                     array(
-                        'user_id' => $this->CI->user_id,
+                        'user_id' => md_the_user_id(),
                         'activity_type' => 'crm_chatbot',
                         'for_id' => $params['category'], 
                         'metas' => $metas
@@ -155,7 +155,7 @@ class Delete {
                 );
 
                 // Delete the user's cache
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             }
 

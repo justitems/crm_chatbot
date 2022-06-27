@@ -67,7 +67,7 @@ class Update {
             '*',
             array(
                 'thread_id' => $params['thread'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -81,7 +81,7 @@ class Update {
             if ( $this->CI->session->userdata( 'member' ) ) {
 
                 // Verify if the website is allowed
-                if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
+                if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
 
                     // Prepare the false response
                     return array(
@@ -136,7 +136,7 @@ class Update {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['thread'], 
                                 'metas' => $metas
@@ -145,7 +145,7 @@ class Update {
                         );
 
                         // Delete the user's cache
-                        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
                     }
 
@@ -207,7 +207,7 @@ class Update {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['thread'], 
                                 'metas' => $metas
@@ -216,7 +216,7 @@ class Update {
                         );
 
                         // Delete the user's cache
-                        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
                     }
 
@@ -267,7 +267,7 @@ class Update {
             '*',
             array(
                 'thread_id' => $params['thread'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -281,7 +281,7 @@ class Update {
             if ( $this->CI->session->userdata( 'member' ) ) {
 
                 // Verify if the website is allowed
-                if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
+                if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
 
                     // Prepare the false response
                     return array(
@@ -336,7 +336,7 @@ class Update {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['thread'], 
                                 'metas' => $metas
@@ -345,12 +345,12 @@ class Update {
                         );
 
                         // Delete the user's cache
-                        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
                     }
 
                     // Delete the user's cache
-                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
+                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
 
                     // Prepare the success response
                     return array(
@@ -410,7 +410,7 @@ class Update {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['thread'], 
                                 'metas' => $metas
@@ -419,12 +419,12 @@ class Update {
                         );
 
                         // Delete the user's cache
-                        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
                     }
 
                     // Delete the user's cache
-                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
+                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
 
                     // Prepare the success response
                     return array(
@@ -473,7 +473,7 @@ class Update {
             '*',
             array(
                 'thread_id' => $params['thread'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -487,7 +487,7 @@ class Update {
             if ( $this->CI->session->userdata( 'member' ) ) {
 
                 // Verify if the website is allowed
-                if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
+                if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
 
                     // Prepare the false response
                     return array(
@@ -542,7 +542,7 @@ class Update {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['thread'], 
                                 'metas' => $metas
@@ -551,12 +551,12 @@ class Update {
                         );
 
                         // Delete the user's cache
-                        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
                     }
 
                     // Delete the user's cache
-                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
+                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
 
                     // Prepare the success response
                     return array(
@@ -616,7 +616,7 @@ class Update {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['thread'], 
                                 'metas' => $metas
@@ -625,12 +625,12 @@ class Update {
                         );
 
                         // Delete the user's cache
-                        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
                     }
 
                     // Delete the user's cache
-                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
+                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
 
                     // Prepare the success response
                     return array(
@@ -679,7 +679,7 @@ class Update {
             '*',
             array(
                 'thread_id' => $params['thread'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -693,7 +693,7 @@ class Update {
             if ( $this->CI->session->userdata( 'member' ) ) {
 
                 // Verify if the website is allowed
-                if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
+                if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
 
                     // Prepare the false response
                     return array(
@@ -748,7 +748,7 @@ class Update {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['thread'], 
                                 'metas' => $metas
@@ -757,12 +757,12 @@ class Update {
                         );
 
                         // Delete the user's cache
-                        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
                     }
 
                     // Delete the user's cache
-                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
+                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
 
                     // Prepare the success response
                     return array(
@@ -822,7 +822,7 @@ class Update {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['thread'], 
                                 'metas' => $metas
@@ -831,12 +831,12 @@ class Update {
                         );
 
                         // Delete the user's cache
-                        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
                     }
 
                     // Delete the user's cache
-                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
+                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
 
                     // Prepare the success response
                     return array(

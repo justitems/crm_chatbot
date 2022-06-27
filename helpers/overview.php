@@ -125,7 +125,7 @@ class Overview {
 
                 // Set guests where
                 $guests_where = array(
-                    'crm_chatbot_websites_guests.user_id' => $this->CI->user_id,
+                    'crm_chatbot_websites_guests.user_id' => md_the_user_id(),
                     'crm_chatbot_websites_guests.created >=' => $date_from,
                     'crm_chatbot_websites_guests.created <=' => $date_to
                 );
@@ -170,7 +170,7 @@ class Overview {
 
                 // Set where messages
                 $messages_where = array(
-                    'crm_chatbot_websites_messages.user_id' => $this->CI->user_id,
+                    'crm_chatbot_websites_messages.user_id' => md_the_user_id(),
                     'crm_chatbot_websites_messages.created >=' => $date_from,
                     'crm_chatbot_websites_messages.created <=' => $date_to
                 );
@@ -204,7 +204,7 @@ class Overview {
 
                     // Set where threads
                     $threads_where = array(
-                        'user_id' => $this->CI->user_id,
+                        'user_id' => md_the_user_id(),
                         'created >=' => $date_from,
                         'created <=' => $date_to
                     );
@@ -226,7 +226,7 @@ class Overview {
 
                     // Set quick replies where
                     $where_quick_replies = array(
-                        'crm_chatbot_websites_messages.user_id' => $this->CI->user_id,
+                        'crm_chatbot_websites_messages.user_id' => md_the_user_id(),
                         'crm_chatbot_websites_messages.created >=' => $date_from,
                         'crm_chatbot_websites_messages.created <=' => $date_to,
                         'crm_chatbot_websites_messages.bot' => '2'
@@ -301,8 +301,8 @@ class Overview {
      */
     public function crm_chatbot_get_actions() {
 
-        // Verify if trigger exists
-        if ( $this->CI->session->userdata( 'trigger' ) ) {
+        // Verify if member exists
+        if ( $this->CI->session->userdata( 'member' ) ) {
 
             // Prepare the false response
             $data = array(
@@ -362,7 +362,7 @@ class Overview {
 
                 // Set where
                 $where = array(
-                    'crm_chatbot_websites_triggers.user_id' => $this->CI->user_id,
+                    'crm_chatbot_websites_triggers.user_id' => md_the_user_id(),
                     'crm_chatbot_websites_triggers_guests.trigger_id >' => 0,
                     'crm_chatbot_websites_triggers_guests.created >=' => $date_from,
                     'crm_chatbot_websites_triggers_guests.created <=' => $date_to
@@ -524,7 +524,7 @@ class Overview {
 
                 // Set where
                 $where = array(
-                    'crm_chatbot_websites_messages.user_id' => $this->CI->user_id,
+                    'crm_chatbot_websites_messages.user_id' => md_the_user_id(),
                     'crm_chatbot_websites_messages.member_id >' => 0,
                     'crm_chatbot_websites_messages.created >=' => $date_from,
                     'crm_chatbot_websites_messages.created <=' => $date_to

@@ -68,7 +68,7 @@ if (!function_exists('the_crm_chatbot_validate_new_assigned_category_fields_from
             '*',
             array(
                 'category_id' => $fields['crm_chatbot_categories'],
-                'user_id' => $CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 

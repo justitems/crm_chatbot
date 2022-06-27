@@ -89,7 +89,7 @@ class Read {
             '*',
             array(
                 'thread_id' => $params['thread'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -111,7 +111,7 @@ class Read {
         if ( $this->CI->session->userdata( 'member' ) ) {
 
             // Verify if the website is allowed
-            if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
+            if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
 
                 // Prepare the false response
                 return array(
@@ -129,7 +129,8 @@ class Read {
             'notifications_alerts_users.id, notifications_alerts_users.banner_seen',
             array(
                 'notifications_alerts_fields.field_name' => 'crm_chatbot_thread_id',
-                'notifications_alerts_fields.field_value' => $params['thread']
+                'notifications_alerts_fields.field_value' => $params['thread'],
+                'notifications_alerts_users.banner_seen <' => 1
             ),
             array(),
             array(),
@@ -232,15 +233,6 @@ class Read {
             // Messages container
             $messages = array();
 
-            // User date
-            $user_date = the_crm_date_format($this->CI->user_id);
-
-            // User time
-            $user_time = the_crm_time_format($this->CI->user_id);
-
-            // Set wanted date format
-            $date_format = str_replace(array('dd', 'mm', 'yyyy'), array('d', 'm', 'Y'), $user_date);
-
             // Set profile images
             $profile_images = array();
 
@@ -251,7 +243,7 @@ class Read {
                 $messages_ids[] = $the_message['message_id'];
 
                 // Set created
-                $the_message['created'] = (($the_message['created'] + 86400) < time())?date($date_format, $the_message['created']):the_crm_calculate_time($this->CI->user_id, $the_message['created']);
+                $the_message['created'] = md_the_user_time(md_the_user_id(), $the_message['created']);
 
                 // Verify if member's ID exists
                 if ( !empty($the_message['member_id']) ) {
@@ -568,15 +560,6 @@ class Read {
             // Messages container
             $messages = array();
 
-            // User date
-            $user_date = the_crm_date_format($params['website']['user_id']);
-
-            // User time
-            $user_time = the_crm_time_format($params['website']['user_id']);
-
-            // Set wanted date format
-            $date_format = str_replace(array('dd', 'mm', 'yyyy'), array('d', 'm', 'Y'), $user_date);
-
             // Set profile images
             $profile_images = array();
 
@@ -587,7 +570,7 @@ class Read {
                 $messages_ids[] = $the_message['message_id'];
 
                 // Set created
-                $the_message['created'] = (($the_message['created'] + 86400) < time())?date($date_format, $the_message['created']):the_crm_calculate_time($params['website']['user_id'], $the_message['created']);
+                $the_message['created'] = md_the_user_time(md_the_user_id(), $the_message['created']);
 
                 // Verify if member's ID exists
                 if ( !empty($the_message['member_id']) ) {
@@ -844,15 +827,6 @@ class Read {
             // Messages container
             $messages = array();
 
-            // User date
-            $user_date = the_crm_date_format($params['user_id']);
-
-            // User time
-            $user_time = the_crm_time_format($params['user_id']);
-
-            // Set wanted date format
-            $date_format = str_replace(array('dd', 'mm', 'yyyy'), array('d', 'm', 'Y'), $user_date);
-
             // Set profile images
             $profile_images = array();
 
@@ -863,7 +837,7 @@ class Read {
                 $messages_ids[] = $the_message['message_id'];
 
                 // Set created
-                $the_message['created'] = (($the_message['created'] + 86400) < time())?date($date_format, $the_message['created']):the_crm_calculate_time($params['user_id'], $the_message['created']);
+                $the_message['created'] = md_the_user_time(md_the_user_id(), $the_message['created']);
 
                 // Verify if member's ID exists
                 if ( !empty($the_message['member_id']) ) {
@@ -1098,7 +1072,7 @@ class Read {
             '*',
             array(
                 'thread_id' => $params['thread'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -1120,7 +1094,7 @@ class Read {
         if ( $this->CI->session->userdata( 'member' ) ) {
 
             // Verify if the website is allowed
-            if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
+            if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
 
                 // Prepare the false response
                 return array(
@@ -1158,7 +1132,7 @@ class Read {
             } else {
 
                 // Update time
-                $the_replies[$this->CI->user_id] = array(
+                $the_replies[md_the_user_id()] = array(
                     'time' => time(),
                     'member_name' => $member['member_name']
                 );
@@ -1222,15 +1196,6 @@ class Read {
             // Messages container
             $messages = array();
 
-            // User date
-            $user_date = the_crm_date_format($this->CI->user_id);
-
-            // User time
-            $user_time = the_crm_time_format($this->CI->user_id);
-
-            // Set wanted date format
-            $date_format = str_replace(array('dd', 'mm', 'yyyy'), array('d', 'm', 'Y'), $user_date);
-
             // Set profile images
             $profile_images = array();
 
@@ -1241,7 +1206,7 @@ class Read {
                 $messages_ids[] = $the_message['message_id'];
 
                 // Set created
-                $the_message['created'] = (($the_message['created'] + 86400) < time())?date($date_format, $the_message['created']):the_crm_calculate_time($this->CI->user_id, $the_message['created']);
+                $the_message['created'] = md_the_user_time(md_the_user_id(), $the_message['created']);
 
                 // Verify if member's ID exists
                 if ( !empty($the_message['member_id']) ) {
@@ -1534,15 +1499,6 @@ class Read {
             // Messages container
             $messages = array();
 
-            // User date
-            $user_date = the_crm_date_format($params['website']['user_id']);
-
-            // User time
-            $user_time = the_crm_time_format($params['website']['user_id']);
-
-            // Set wanted date format
-            $date_format = str_replace(array('dd', 'mm', 'yyyy'), array('d', 'm', 'Y'), $user_date);
-
             // Set profile images
             $profile_images = array();
 
@@ -1553,7 +1509,7 @@ class Read {
                 $messages_ids[] = $the_message['message_id'];
 
                 // Set created
-                $the_message['created'] = (($the_message['created'] + 86400) < time())?date($date_format, $the_message['created']):the_crm_calculate_time($params['website']['user_id'], $the_message['created']);
+                $the_message['created'] = md_the_user_time(md_the_user_id(), $the_message['created']);
 
                 // Verify if member's ID exists
                 if ( !empty($the_message['member_id']) ) {

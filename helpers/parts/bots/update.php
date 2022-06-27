@@ -89,7 +89,7 @@ class Update {
             '*',
             array(
                 'bot_id' => $params['bot'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -393,7 +393,7 @@ class Update {
         }
 
         // Delete the user's cache
-        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_bots_list');
+        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_bots_list');
 
         // Verify if member's name exists
         if ( isset($member['member_name']) ) {
@@ -429,7 +429,7 @@ class Update {
             // Create the activity
             create_crm_activity(
                 array(
-                    'user_id' => $this->CI->user_id,
+                    'user_id' => md_the_user_id(),
                     'activity_type' => 'crm_chatbot',
                     'for_id' => $params['bot'], 
                     'metas' => $metas
@@ -438,7 +438,7 @@ class Update {
             );
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
         }
 
@@ -457,7 +457,7 @@ class Update {
                 }
 
                 // Verify if the category exists
-                if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => $this->CI->user_id ) ) ) {
+                if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => md_the_user_id() ) ) ) {
 
                     // Save the category
                     if ( !$this->CI->base_model->insert('crm_chatbot_bots_categories', array('bot_id' => $params['bot'], 'category_id' => $category) ) ) {

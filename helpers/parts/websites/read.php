@@ -77,7 +77,7 @@ class Read {
 
         // Set where
         $where = array(
-            'crm_chatbot_websites.user_id' => $this->CI->user_id
+            'crm_chatbot_websites.user_id' => md_the_user_id()
         );
 
         // Set where in
@@ -94,7 +94,7 @@ class Read {
                     'crm_chatbot_websites',
                     '*',
                     array(
-                        'user_id' => $this->CI->user_id
+                        'user_id' => md_the_user_id()
                     )
 
                 );
@@ -109,7 +109,7 @@ class Read {
                     foreach ( $the_websites_list as $the_website ) {
 
                         // Verify if the website is allowed
-                        if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
+                        if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
                             continue;
                         }
 
@@ -169,10 +169,10 @@ class Read {
         $parameters_string = $this->generate_string($params);
 
         // Verify if the cache exists for this query
-        if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_websites_' . $parameters_string) ) {
+        if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_websites_' . $parameters_string) ) {
 
             // Set the cache
-            $the_websites = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_websites_' . $parameters_string);
+            $the_websites = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_websites_' . $parameters_string);
 
         } else {
 
@@ -188,10 +188,10 @@ class Read {
             );
 
             // Save cache
-            md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_websites_' . $parameters_string, $the_websites);
+            md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_websites_' . $parameters_string, $the_websites);
 
             // Set saved cronology
-            update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_list', 'crm_chatbot_user_' . $this->CI->user_id . '_websites_' . $parameters_string);
+            update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_list', 'crm_chatbot_user_' . md_the_user_id() . '_websites_' . $parameters_string);
 
         }
 
@@ -199,10 +199,10 @@ class Read {
         if ( $the_websites ) {
 
             // Verify if the cache exists for this query
-            if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_websites_' . $parameters_string) ) {
+            if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_websites_' . $parameters_string) ) {
 
                 // Get total websites
-                $the_total = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_websites_' . $parameters_string);
+                $the_total = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_websites_' . $parameters_string);
 
             } else {
 
@@ -217,10 +217,10 @@ class Read {
                 );
 
                 // Save cache
-                md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_websites_' . $parameters_string, $the_total);
+                md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_websites_' . $parameters_string, $the_total);
 
                 // Set saved cronology
-                update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_list', 'crm_chatbot_user_' . $this->CI->user_id . '_load_total_websites_' . $parameters_string);
+                update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_list', 'crm_chatbot_user_' . md_the_user_id() . '_load_total_websites_' . $parameters_string);
 
             }
 
@@ -266,7 +266,7 @@ class Read {
                 '*',
                 array(
                     'website_id' => $params['bot'],
-                    'user_id' => $this->CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 

@@ -95,7 +95,7 @@ class Delete {
                 '*',
                 array(
                     'email_id' => $params['email'],
-                    'user_id' => $this->CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 
@@ -139,7 +139,7 @@ class Delete {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['email'], 
                                 'metas' => $metas
@@ -188,8 +188,8 @@ class Delete {
         if ( $this->CI->base_model->delete('crm_chatbot_emails', array('email_id' => $email_id) ) ) {
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_emails_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_emails_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             // Delete all quick email's records
             md_run_hook(

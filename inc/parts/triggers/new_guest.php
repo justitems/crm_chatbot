@@ -87,7 +87,7 @@ if (!function_exists('the_crm_chatbot_validate_new_guest_fields_from_parts')) {
             '*',
             array(
                 'website_id' => $fields['crm_chatbot_websites'],
-                'user_id' => $CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 

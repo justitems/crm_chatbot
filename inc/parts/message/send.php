@@ -325,6 +325,60 @@ if ( !function_exists('crm_chatbot_send_bot_from_parts') ) {
             }
 
         }
+
+        // Verify if urls exists
+        if ( !empty($params['visited_urls']) ) {
+
+            // If is array
+            if ( is_array($params['visited_urls']) ) {
+
+                // Get already saved urls
+                $saved_urls = $CI->base_model->the_data_where(
+                    'crm_chatbot_websites_guests_visited_urls',
+                    '*',
+                    array(
+                        'guest_id' => $guest_id
+                    )
+                );
+
+                // Prepare the saved urls
+                $the_saved_urls = !empty($saved_urls)?array_column($saved_urls, 'url'):array();
+
+                // New saved urls
+                $new_saved_url = array();
+
+                // List urls
+                foreach ( $params['visited_urls'] as $url ) {
+
+                    // Verify if the url has correct parameters
+                    if ( !empty($url['title']) && !empty($url['url']) ) {
+
+                        // Verify if the url is valid and is not saved already
+                        if ( (filter_var($url['url'], FILTER_VALIDATE_URL) !== FALSE) && !in_array(trim($url['url']), $the_saved_urls) && !in_array(trim($url['url']), $new_saved_url) ) {
+
+                            // Prepare url
+                            $url_params = array(
+                                'user_id' => $params['user_id'],
+                                'guest_id' => $guest_id,
+                                'website_id' => $params['website_id'],
+                                'title' => $url['title'],
+                                'url' => trim($url['url'])
+                            );
+
+                            // Verify if url was saved
+                            if ( $CI->base_model->insert('crm_chatbot_websites_guests_visited_urls', $url_params) ) {
+                                $new_saved_url[] = trim($url['url']);
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
         
         // Verify if guest's ID exists
         if ( $guest_id ) { 
@@ -342,6 +396,13 @@ if ( !function_exists('crm_chatbot_send_bot_from_parts') ) {
 
             // Set thread's ID
             $thread_id = !empty($the_thread)?$the_thread[0]['thread_id']:0;
+
+            // Delete the user's cache
+            delete_crm_cache_cronology_for_user($params['user_id'], 'crm_chatbot_websites_threads_list');
+            delete_crm_cache_cronology_for_user($params['user_id'], 'crm_chatbot_numbers_list');
+            delete_crm_cache_cronology_for_user($params['user_id'], 'crm_chatbot_emails_list');
+            delete_crm_cache_cronology_for_user($params['user_id'], 'crm_chatbot_websites_guests_list');
+            delete_crm_cache_cronology_for_user($params['user_id'], 'crm_chatbot_websites_visited_urls_list');   
             
             // Verify if the thread exists
             if ( !$the_thread ) {
@@ -363,8 +424,76 @@ if ( !function_exists('crm_chatbot_send_bot_from_parts') ) {
                 if ( $the_thread ) {
 
                     // Set thread's ID
-                    $thread_id = $the_thread;
+                    $thread_id = $the_thread; 
                     
+                }
+
+            }
+
+            // Verify if the guest don't has saved the latitude
+            if ( !the_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude') ) {
+
+                // Verify if the ip2location is enabled
+                if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
+
+                    // Verify if api key exists
+                    if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
+
+                        // Get guest information
+                        $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
+
+                        // Verify if response key exists
+                        if ( !empty($the_guest_info['response']) ) {
+
+                            // Verify if response value is OK
+                            if ( $the_guest_info['response'] === 'OK' ) {
+
+                                // Verify if latitude exists
+                                if ( !empty($the_guest_info['latitude']) ) {
+
+                                    // Save the latitude
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude', $the_guest_info['latitude']); 
+
+                                }
+
+                                // Verify if longitude exists
+                                if ( !empty($the_guest_info['longitude']) ) {
+
+                                    // Save the longitude
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude', $the_guest_info['longitude']); 
+
+                                }
+                                
+                                // Verify if country code exists
+                                if ( !empty($the_guest_info['country_code']) ) {
+
+                                    // Save the country code
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_code', $the_guest_info['country_code']); 
+
+                                }
+                                
+                                // Verify if country name exists
+                                if ( !empty($the_guest_info['country_name']) ) {
+
+                                    // Save the country name
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_name', $the_guest_info['country_name']); 
+
+                                }
+                                
+                                // Verify if city name exists
+                                if ( !empty($the_guest_info['city_name']) ) {
+
+                                    // Save the city name
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_city_name', $the_guest_info['city_name']); 
+
+                                }                             
+
+                            }
+
+                        }
+
+                    }
+
                 }
 
             }
@@ -394,8 +523,7 @@ if ( !function_exists('crm_chatbot_send_bot_from_parts') ) {
                     );
 
                     // Try to save the quick reply's response
-                    $test = $CI->base_model->insert('crm_chatbot_websites_messages', $message_params);  
-                             
+                    $test = $CI->base_model->insert('crm_chatbot_websites_messages', $message_params);
 
                 }
 

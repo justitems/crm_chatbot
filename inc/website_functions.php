@@ -397,7 +397,7 @@ if ( !function_exists('the_crm_chatbot_websites_meta') ) {
         if ( !$user_id ) {
 
             // Set user's ID
-            $user_id = $CI->user_id;
+            $user_id = md_the_user_id();
 
         }
 
@@ -833,7 +833,7 @@ if ( !function_exists('the_crm_chatbot_website_chat_member_agent') ) {
             if ( !$user_id ) {
     
                 // Set user's ID
-                $user_id = $CI->user_id;
+                $user_id = md_the_user_id();
     
             }
     

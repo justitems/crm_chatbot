@@ -77,7 +77,7 @@ class Read {
 
         // Set where
         $where = array(
-            'crm_chatbot_websites_guests.user_id' => $this->CI->user_id
+            'crm_chatbot_websites_guests.user_id' => md_the_user_id()
         );      
 
         // Set where in
@@ -97,7 +97,7 @@ class Read {
                     'crm_chatbot_websites',
                     '*',
                     array(
-                        'user_id' => $this->CI->user_id
+                        'user_id' => md_the_user_id()
                     )
 
                 );
@@ -112,7 +112,7 @@ class Read {
                     foreach ( $the_websites_list as $the_website ) {
 
                         // Verify if the website is allowed
-                        if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
+                        if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
                             continue;
                         }
 
@@ -211,10 +211,10 @@ class Read {
         $parameters_string = $this->generate_string($params);
 
         // Verify if the cache exists for this query
-        if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_guests_' . $parameters_string) ) {
+        if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_guests_' . $parameters_string) ) {
 
             // Set the cache
-            $the_guests = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_guests_' . $parameters_string);
+            $the_guests = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_guests_' . $parameters_string);
 
         } else {
 
@@ -230,10 +230,10 @@ class Read {
             );
 
             // Save cache
-            md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_guests_' . $parameters_string, $the_guests);
+            md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_guests_' . $parameters_string, $the_guests);
 
             // Set saved cronology
-            update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_guests_list', 'crm_chatbot_user_' . $this->CI->user_id . '_guests_' . $parameters_string);
+            update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_guests_list', 'crm_chatbot_user_' . md_the_user_id() . '_guests_' . $parameters_string);
 
         }
 
@@ -241,10 +241,10 @@ class Read {
         if ( $the_guests ) {
 
             // Verify if the cache exists for this query
-            if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_guests_' . $parameters_string) ) {
+            if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_guests_' . $parameters_string) ) {
 
                 // Get total guests
-                $the_total = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_guests_' . $parameters_string);
+                $the_total = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_guests_' . $parameters_string);
 
             } else {
 
@@ -259,10 +259,10 @@ class Read {
                 );
 
                 // Save cache
-                md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_guests_' . $parameters_string, $the_total);
+                md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_guests_' . $parameters_string, $the_total);
 
                 // Set saved cronology
-                update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_guests_list', 'crm_chatbot_user_' . $this->CI->user_id . '_load_total_guests_' . $parameters_string);
+                update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_guests_list', 'crm_chatbot_user_' . md_the_user_id() . '_load_total_guests_' . $parameters_string);
 
             }
 
@@ -319,7 +319,7 @@ class Read {
                 '*',
                 array(
                     'thread_id' => $params['thread'],
-                    'user_id' => $this->CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 
@@ -348,7 +348,7 @@ class Read {
                 '*',
                 array(
                     'guest_id' => $params['guest'],
-                    'user_id' => $this->CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 
@@ -383,7 +383,7 @@ class Read {
             if ( isset($member['role_id']) ) {
 
                 // Verify if the website is allowed
-                if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
+                if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
                     
                     // Prepare the false response
                     return array(
@@ -423,10 +423,10 @@ class Read {
         $parameters_string = $this->generate_string($params);
 
         // Verify if the cache exists for this query
-        if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_visited_urls_' . $parameters_string) ) {
+        if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_visited_urls_' . $parameters_string) ) {
 
             // Set the cache
-            $the_visited_urls = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_visited_urls_' . $parameters_string);
+            $the_visited_urls = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_visited_urls_' . $parameters_string);
 
         } else {
 
@@ -442,10 +442,10 @@ class Read {
             );
 
             // Save cache
-            md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_visited_urls_' . $parameters_string, $the_visited_urls);
+            md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_visited_urls_' . $parameters_string, $the_visited_urls);
 
             // Set saved cronology
-            update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_visited_urls_list', 'crm_chatbot_user_' . $this->CI->user_id . '_visited_urls_' . $parameters_string);
+            update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_visited_urls_list', 'crm_chatbot_user_' . md_the_user_id() . '_visited_urls_' . $parameters_string);
 
         }
 
@@ -453,10 +453,10 @@ class Read {
         if ( $the_visited_urls ) {
 
             // Verify if the cache exists for this query
-            if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_visited_urls_' . $parameters_string) ) {
+            if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_visited_urls_' . $parameters_string) ) {
 
                 // Get total visited urls
-                $the_total = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_visited_urls_' . $parameters_string);
+                $the_total = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_visited_urls_' . $parameters_string);
 
             } else {
 
@@ -471,10 +471,10 @@ class Read {
                 );
 
                 // Save cache
-                md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_visited_urls_' . $parameters_string, $the_total);
+                md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_visited_urls_' . $parameters_string, $the_total);
 
                 // Set saved cronology
-                update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_visited_urls_list', 'crm_chatbot_user_' . $this->CI->user_id . '_load_total_visited_urls_' . $parameters_string);
+                update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_visited_urls_list', 'crm_chatbot_user_' . md_the_user_id() . '_load_total_visited_urls_' . $parameters_string);
 
             }
 

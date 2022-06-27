@@ -92,7 +92,7 @@ class Update {
         }
         
         // Get the website
-        if ( !$this->CI->base_model->the_data_where('crm_chatbot_websites', '*', array('website_id' => $params['website'], 'user_id' => $this->CI->user_id) ) ) {
+        if ( !$this->CI->base_model->the_data_where('crm_chatbot_websites', '*', array('website_id' => $params['website'], 'user_id' => md_the_user_id()) ) ) {
 
             // Prepare error response
             return array(
@@ -155,7 +155,7 @@ class Update {
         }
 
         // Get the trigger
-        $the_trigger = $this->CI->base_model->the_data_where('crm_chatbot_websites_triggers', '*', array('trigger_id' => $params['trigger'], 'user_id' => $this->CI->user_id, 'website_id' => $params['website']) );
+        $the_trigger = $this->CI->base_model->the_data_where('crm_chatbot_websites_triggers', '*', array('trigger_id' => $params['trigger'], 'user_id' => md_the_user_id(), 'website_id' => $params['website']) );
 
         // Verify if the trigger exists
         if ( !$the_trigger ) {
@@ -262,7 +262,7 @@ class Update {
         $cl = implode('\\', $array);
 
         // Delete the user's cache
-        delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_triggers_list');
+        delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_triggers_list');
         delete_crm_cache_cronology_for_user($params['website'], 'crm_chatbot_triggers_chat');
 
         // Save trigger's data
@@ -305,7 +305,7 @@ class Update {
                 // Create the activity
                 create_crm_activity(
                     array(
-                        'user_id' => $this->CI->user_id,
+                        'user_id' => md_the_user_id(),
                         'activity_type' => 'crm_chatbot',
                         'for_id' => $params['trigger'], 
                         'metas' => $metas
@@ -314,7 +314,7 @@ class Update {
                 );
 
                 // Delete the user's cache
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             }
 

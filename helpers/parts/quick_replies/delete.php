@@ -95,7 +95,7 @@ class Delete {
                 '*',
                 array(
                     'reply_id' => $params['reply'],
-                    'user_id' => $this->CI->user_id
+                    'user_id' => md_the_user_id()
                 )
             );
 
@@ -139,7 +139,7 @@ class Delete {
                         // Create the activity
                         create_crm_activity(
                             array(
-                                'user_id' => $this->CI->user_id,
+                                'user_id' => md_the_user_id(),
                                 'activity_type' => 'crm_chatbot',
                                 'for_id' => $params['reply'], 
                                 'metas' => $metas
@@ -191,8 +191,8 @@ class Delete {
             $this->CI->base_model->delete('crm_chatbot_quick_replies_categories', array('reply_id' => $reply_id) );
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_quick_replies_list');
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_quick_replies_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             // Delete all quick reply's records
             md_run_hook(

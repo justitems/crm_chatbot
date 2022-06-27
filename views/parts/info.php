@@ -58,7 +58,7 @@
                                                 $date = new DateTime("now", new DateTimeZone(the_crm_chatbot_websites_guests_meta($guest_id, 'guest_timezone')) );
 
                                                 // Display time
-                                                echo the_crm_calculate_time($this->user_id, $date->getTimestamp());
+                                                echo md_the_user_time(md_the_user_id(), $date->getTimestamp());
                                                 
                                                 ?>
                                             </span>
@@ -300,7 +300,7 @@
                                 </div>
                             </div>                            
                         </div>
-                        <div class="card-footer text-right" style="">
+                        <div class="card-footer text-right">
                             <nav aria-label="members">
                                 <ul class="theme-pagination" data-type="members">
                                 </ul>

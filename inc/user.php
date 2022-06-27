@@ -23,7 +23,7 @@ set_crm_settings_page(
         'page_content' => 'get_crm_settings_general_page',
         'css_urls' => array(
             array('stylesheet', base_url('assets/base/user/apps/collection/crm-settings/styles/css/general.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all'),
-            array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
+            array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
         ),
         'js_urls' => array(
             array(base_url('assets/base/user/apps/collection/crm-settings/js/general.js?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION)),
@@ -60,7 +60,7 @@ set_crm_settings_page(
         'page_content' => 'get_crm_settings_profile_page',
         'css_urls' => array(
             array('stylesheet', base_url('assets/base/user/apps/collection/crm-settings/styles/css/profile.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all'),
-            array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
+            array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
         ),
         'js_urls' => array(
             array(base_url('assets/base/user/default/js/upload-box.js?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION))
@@ -96,7 +96,7 @@ set_crm_settings_page(
         'page_content' => 'get_crm_settings_plan_page',
         'css_urls' => array(
             array('stylesheet', base_url('assets/base/user/apps/collection/crm-settings/styles/css/plan.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all'),
-            array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
+            array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
         ),
         'js_urls' => array(
             array(base_url('assets/base/user/apps/collection/crm-settings/js/plan.js?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION)),
@@ -129,7 +129,7 @@ set_crm_settings_page(
         'page_content' => 'get_crm_settings_notifications_page',
         'css_urls' => array(
             array('stylesheet', base_url('assets/base/user/apps/collection/crm-settings/styles/css/notifications.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all'),
-            array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
+            array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
         ),
         'js_urls' => array(
             array(base_url('assets/base/user/apps/collection/crm-settings/js/notifications.js?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION)),
@@ -162,7 +162,7 @@ set_crm_settings_page(
         'page_content' => 'get_crm_settings_apps_page',
         'css_urls' => array(
             array('stylesheet', base_url('assets/base/user/apps/collection/crm-settings/styles/css/apps.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all'),
-            array('stylesheet', base_url('assets/base/user/themes/collection/crm/styles/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
+            array('stylesheet', base_url('assets/base/user/default/styles/libs/boxes/css/upload-box.css?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION), 'text/css', 'all')
         ),
         'js_urls' => array(
             array(base_url('assets/base/user/apps/collection/crm-settings/js/apps.js?ver=' . CMS_BASE_USER_APPS_CRM_SETTINGS_VERSION)),
@@ -318,7 +318,7 @@ if ( !function_exists('save_crm_settings_options_checkbox_input_template') ) {
         if ( isset($args['value']) ) {
 
             // Try to save the option
-            if ( md_update_user_option($CI->user_id, $args['slug'], $args['value']) ) {
+            if ( md_update_user_option(md_the_user_id(), $args['slug'], $args['value']) ) {
                 return true;
             } else {
                 return false;
@@ -406,7 +406,7 @@ if ( !function_exists('save_crm_settings_options_select_list_template') ) {
         if ( isset($args['value']) ) {
 
             // Try to save the option
-            if ( md_update_user_option($CI->user_id, $args['slug'], $args['value']) ) {
+            if ( md_update_user_option(md_the_user_id(), $args['slug'], $args['value']) ) {
                 return true;
             } else {
                 return false;

@@ -92,7 +92,7 @@ class Read {
         }
         
         // Get the website
-        if ( !$this->CI->base_model->the_data_where('crm_chatbot_websites', '*', array('website_id' => $params['website'], 'user_id' => $this->CI->user_id) ) ) {
+        if ( !$this->CI->base_model->the_data_where('crm_chatbot_websites', '*', array('website_id' => $params['website'], 'user_id' => md_the_user_id()) ) ) {
 
             // Prepare error response
             return array(
@@ -112,7 +112,7 @@ class Read {
             if ( isset($member['role_id']) ) {
 
                 // Verify if the website is allowed
-                if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $params['website']) ) {
+                if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $params['website']) ) {
 
                     // Prepare the false response
                     return array(
@@ -128,7 +128,7 @@ class Read {
 
         // Set where
         $where = array(
-            'user_id' => $this->CI->user_id,
+            'user_id' => md_the_user_id(),
             'website_id' => $params['website']
         );
 
@@ -161,10 +161,10 @@ class Read {
         $parameters_string = $this->generate_string($params);
 
         // Verify if the cache exists for this query
-        if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_triggers_' . $parameters_string) ) {
+        if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_triggers_' . $parameters_string) ) {
 
             // Set the cache
-            $the_triggers = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_triggers_' . $parameters_string);
+            $the_triggers = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_triggers_' . $parameters_string);
 
         } else {
 
@@ -180,10 +180,10 @@ class Read {
             );
 
             // Save cache
-            md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_triggers_' . $parameters_string, $the_triggers);
+            md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_triggers_' . $parameters_string, $the_triggers);
 
             // Set saved cronology
-            update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_triggers_list', 'crm_chatbot_user_' . $this->CI->user_id . '_triggers_' . $parameters_string);
+            update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_triggers_list', 'crm_chatbot_user_' . md_the_user_id() . '_triggers_' . $parameters_string);
 
         }
 
@@ -191,10 +191,10 @@ class Read {
         if ( $the_triggers ) {
 
             // Verify if the cache exists for this query
-            if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_triggers_' . $parameters_string) ) {
+            if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_triggers_' . $parameters_string) ) {
 
                 // Get total triggers
-                $the_total = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_triggers_' . $parameters_string);
+                $the_total = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_triggers_' . $parameters_string);
 
             } else {
 
@@ -209,10 +209,10 @@ class Read {
                 );
 
                 // Save cache
-                md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_triggers_' . $parameters_string, $the_total);
+                md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_triggers_' . $parameters_string, $the_total);
 
                 // Set saved cronology
-                update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_triggers_list', 'crm_chatbot_user_' . $this->CI->user_id . '_load_total_triggers_' . $parameters_string);
+                update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_triggers_list', 'crm_chatbot_user_' . md_the_user_id() . '_load_total_triggers_' . $parameters_string);
 
             }
 
@@ -275,7 +275,7 @@ class Read {
         }
         
         // Get the trigger's data
-        $the_trigger = $this->CI->base_model->the_data_where('crm_chatbot_websites_triggers', '*', array('trigger_id' => $params['trigger'], 'user_id' => $this->CI->user_id) );
+        $the_trigger = $this->CI->base_model->the_data_where('crm_chatbot_websites_triggers', '*', array('trigger_id' => $params['trigger'], 'user_id' => md_the_user_id()) );
 
         // Verify if the trigger exists
         if ( !$the_trigger ) {
@@ -298,7 +298,7 @@ class Read {
             if ( isset($member['role_id']) ) {
 
                 // Verify if the website is allowed
-                if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_trigger[0]['website_id']) ) {
+                if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_trigger[0]['website_id']) ) {
 
                     // Prepare the false response
                     return array(

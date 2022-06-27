@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-12 crm-chatbot-bot-builder">
-        <div class="row">
-            <div class="col-6 theme-breadcrumb">
+        <div class="row crm-fb-chatbot-bot-builder-navigation">
+            <div class="col-md-6 col-12 theme-breadcrumb">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
@@ -13,12 +13,14 @@
                     </ol>
                 </nav>
             </div>
-            <div class="col-6 text-right">
+            <div class="col-md-6 col-12 text-right">
                 <div class="btn-group crm-chatbot-bot-actions-group" role="group" aria-label="Bot Actions">
                     <div class="dropdown dropdown-options theme-dropdown-1 theme-dropdown-icon-1" id="crm-chatbot-bot-preview-chat-dropdown">
                         <button class="btn btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?php echo md_the_user_icon(array('icon' => 'slideshow')); ?>
-                            <?php echo $this->lang->line('crm_chatbot_preview'); ?>
+                            <span>
+                                <?php echo $this->lang->line('crm_chatbot_preview'); ?>
+                            </span>
                             <?php echo md_the_user_icon(array('icon' => 'arrow_down', 'class' => 'theme-dropdown-arrow-icon')); ?>
                         </button>
                         <div class="dropdown-menu crm-chatbot-preview-chat">
@@ -28,7 +30,9 @@
                     <div class="dropdown dropdown-options theme-dropdown-1 theme-dropdown-icon-1" id="crm-chatbot-select-element-dropdown">
                         <button class="btn btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?php echo md_the_user_icon(array('icon' => 'drag_indicator')); ?>
-                            <?php echo $this->lang->line('crm_chatbot_elements'); ?>
+                            <span>
+                                <?php echo $this->lang->line('crm_chatbot_elements'); ?>
+                            </span>
                             <?php echo md_the_user_icon(array('icon' => 'arrow_down', 'class' => 'theme-dropdown-arrow-icon')); ?>
                         </button>
                         <div class="dropdown-menu crm-chatbot-elements-directory">
@@ -62,8 +66,10 @@
                     </div>
                     <div class="dropdown theme-dropdown-1 theme-dropdown-icon-1" id="crm-chatbot-actions-dropdown">
                         <button class="btn btn-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?php echo md_the_user_icon(array('icon' => 'flow_chart')); ?> 
-                            <?php echo $this->lang->line('crm_chatbot_actions'); ?>
+                            <?php echo md_the_user_icon(array('icon' => 'flow_chart')); ?>
+                            <span>
+                                <?php echo $this->lang->line('crm_chatbot_actions'); ?>
+                            </span>
                             <?php echo md_the_user_icon(array('icon' => 'arrow_down', 'class' => 'theme-dropdown-arrow-icon')); ?>
                         </button>
                         <div class="dropdown-menu crm-chatbot-actions-list">

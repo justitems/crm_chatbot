@@ -34,7 +34,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-3 col-12 mb-0">
                                             <div class="btn-group crm-team-add-role default-button-new theme-box-1" role="group" aria-label="Button group with nested dropdown">
                                                 <a href="<?php echo site_url('user/app/crm_chatbot?p=bots&new=1'); ?>" class="btn btn-secondary btn-crm-team-new-role theme-background-new theme-font-2">
                                                     <?php echo md_the_user_icon(array('icon' => 'add_road')); ?>

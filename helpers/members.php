@@ -79,7 +79,7 @@ class Members {
                     'teams_meta',
                     'teams.member_id, teams.member_username, first_name.meta_value AS member_first_name, last_name.meta_value AS member_last_name',
                     array(
-                        'teams.user_id' => $this->CI->user_id,
+                        'teams.user_id' => md_the_user_id(),
                         'teams.status >' => 0
                     ),
                     array(),
@@ -163,7 +163,7 @@ class Members {
                     '*',
                     array(
                         'thread_id' => $thread,
-                        'user_id' => $this->CI->user_id
+                        'user_id' => md_the_user_id()
                     )
                 );
 
@@ -184,7 +184,7 @@ class Members {
 
                 // Set where parameters
                 $where = array(
-                    'teams.user_id' => $this->CI->user_id,
+                    'teams.user_id' => md_the_user_id(),
                     'teams.status' => 0,
                     'teams_roles_multioptions_list.option_value' => $the_thread[0]['website_id']
                 );
@@ -196,10 +196,10 @@ class Members {
                 ));
 
                 // Verify if the cache exists for this query
-                if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_thread_team_members_' . $parameters_string) ) {
+                if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_thread_team_members_' . $parameters_string) ) {
 
                     // Set the cache
-                    $the_team_members = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_thread_team_members_' . $parameters_string);
+                    $the_team_members = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_thread_team_members_' . $parameters_string);
 
                 } else {    
 
@@ -243,10 +243,10 @@ class Members {
                     );
 
                     // Save cache
-                    md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_thread_team_members_' . $parameters_string, $the_team_members);
+                    md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_thread_team_members_' . $parameters_string, $the_team_members);
 
                     // Set saved cronology
-                    update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_threads_teams_members', 'crm_chatbot_user_' . $this->CI->user_id . '_thread_team_members_' . $parameters_string);
+                    update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_threads_teams_members', 'crm_chatbot_user_' . md_the_user_id() . '_thread_team_members_' . $parameters_string);
 
                 }
 
@@ -254,10 +254,10 @@ class Members {
                 if ( $the_team_members ) {
 
                     // Verify if the cache exists for this query
-                    if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_thread_team_members_' . $parameters_string) ) {
+                    if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_thread_team_members_' . $parameters_string) ) {
 
                         // Set cache
-                        $the_total = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_thread_team_members_' . $parameters_string);
+                        $the_total = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_thread_team_members_' . $parameters_string);
 
                     } else {
 
@@ -283,10 +283,10 @@ class Members {
                         );
 
                         // Save cache
-                        md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_thread_team_members_' . $parameters_string, $the_total);
+                        md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_thread_team_members_' . $parameters_string, $the_total);
 
                         // Set saved cronology
-                        update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_threads_teams_members', 'crm_chatbot_user_' . $this->CI->user_id . '_load_total_thread_team_members_' . $parameters_string);
+                        update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_threads_teams_members', 'crm_chatbot_user_' . md_the_user_id() . '_load_total_thread_team_members_' . $parameters_string);
 
                     }
 

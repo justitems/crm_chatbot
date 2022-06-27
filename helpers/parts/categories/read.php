@@ -63,7 +63,7 @@ class Read {
         
         // Set where
         $where = array(
-            'crm_chatbot_categories.user_id' => $this->CI->user_id
+            'crm_chatbot_categories.user_id' => md_the_user_id()
         );
 
         // Set where in
@@ -95,10 +95,10 @@ class Read {
         $parameters_string = $this->generate_string($params);
 
         // Verify if the cache exists for this query
-        if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_categories_' . $parameters_string) ) {
+        if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_categories_' . $parameters_string) ) {
 
             // Set the cache
-            $the_categories = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_categories_' . $parameters_string);
+            $the_categories = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_categories_' . $parameters_string);
 
         } else {
 
@@ -114,10 +114,10 @@ class Read {
             );
 
             // Save cache
-            md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_categories_' . $parameters_string, $the_categories);
+            md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_categories_' . $parameters_string, $the_categories);
 
             // Set saved cronology
-            update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_categories_list', 'crm_chatbot_user_' . $this->CI->user_id . '_categories_' . $parameters_string);
+            update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_categories_list', 'crm_chatbot_user_' . md_the_user_id() . '_categories_' . $parameters_string);
 
         }
 
@@ -125,10 +125,10 @@ class Read {
         if ( $the_categories ) {
 
             // Verify if the cache exists for this query
-            if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_categories_' . $parameters_string) ) {
+            if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_categories_' . $parameters_string) ) {
 
                 // Get total categories
-                $the_total = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_categories_' . $parameters_string);
+                $the_total = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_categories_' . $parameters_string);
 
             } else {
 
@@ -143,10 +143,10 @@ class Read {
                 );
 
                 // Save cache
-                md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_load_total_categories_' . $parameters_string, $the_total);
+                md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_load_total_categories_' . $parameters_string, $the_total);
 
                 // Set saved cronology
-                update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_categories_list', 'crm_chatbot_user_' . $this->CI->user_id . '_load_total_categories_' . $parameters_string);
+                update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_categories_list', 'crm_chatbot_user_' . md_the_user_id() . '_load_total_categories_' . $parameters_string);
 
             }
 
@@ -183,7 +183,7 @@ class Read {
         
         // Set where
         $where = array(
-            'crm_chatbot_categories.user_id' => $this->CI->user_id
+            'crm_chatbot_categories.user_id' => md_the_user_id()
         );
 
         // Set like
@@ -193,10 +193,10 @@ class Read {
         $key = isset($params['key'])?'_show_by_' . $this->generate_string(array('key' => $params['key'])):'';
 
         // Verify if the cache exists for this query
-        if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_categories_all' . $key) ) {
+        if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_categories_all' . $key) ) {
 
             // Set the cache
-            $the_categories = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_categories_all' . $key);
+            $the_categories = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_categories_all' . $key);
 
         } else {
 
@@ -210,10 +210,10 @@ class Read {
             );
 
             // Save cache
-            md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_categories_all' . $key, $the_categories);
+            md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_categories_all' . $key, $the_categories);
 
             // Set saved cronology
-            update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_categories_list', 'crm_chatbot_user_' . $this->CI->user_id . '_categories_all' . $key);
+            update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_categories_list', 'crm_chatbot_user_' . md_the_user_id() . '_categories_all' . $key);
 
         }
 

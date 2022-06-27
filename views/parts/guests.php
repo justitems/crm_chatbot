@@ -34,7 +34,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-3 col-12 mb-0">
                                             <div role="group" class="btn-group theme-box-1 crm-chatbot-guests-group default-button-new" aria-label="Export Guests">
                                                 <a href="#" class="btn btn-secondary theme-background-new theme-font-2 crm-chatbot-export-guests">
                                                     <?php echo md_the_user_icon(array('icon' => 'export')); ?>

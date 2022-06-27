@@ -40,7 +40,7 @@
                                         if ( md_the_team_role_permission('crm_chatbot_create_websites') ) {
 
                                         ?>  
-                                        <div class="col-md-3 col-12">
+                                        <div class="col-md-3 col-12 mb-0">
                                             <div class="btn-group crm-chatbot-add-website default-button-new theme-box-1" role="group" aria-label="Button group with nested dropdown">
                                                 <a href="<?php echo site_url('user/app/crm_chatbot?p=websites&new=1'); ?>" class="btn btn-secondary btn-crm-chatbot-new-website theme-background-new theme-font-2">
                                                     <?php echo md_the_user_icon(array('icon' => 'add_link')); ?>

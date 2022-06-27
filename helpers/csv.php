@@ -120,7 +120,7 @@ class Csv {
                         foreach ( $decoded_categories as $category ) {
 
                             // Verify if the category exists
-                            if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => $this->CI->user_id ) ) ) {
+                            if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => md_the_user_id() ) ) ) {
 
                                 // Set category
                                 $categories_list[] = $category;
@@ -236,7 +236,7 @@ class Csv {
 
                                 // Create reply
                                 $reply = array(
-                                    'user_id' => $this->CI->user_id,
+                                    'user_id' => md_the_user_id(),
                                     'keywords' => trim($this->CI->security->xss_clean($data[0])),
                                     'status' => 1,
                                     'created' => time()
@@ -259,7 +259,7 @@ class Csv {
                                         '*',
                                         array(
                                             'bot_id' => trim($this->CI->security->xss_clean($data[1])),
-                                            'user_id' => $this->CI->user_id
+                                            'user_id' => md_the_user_id()
                                         )
                                     );
 
@@ -354,7 +354,7 @@ class Csv {
                             if ( $replies_count ) {
 
                                 // Delete the user's cache
-                                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_quick_replies_list');
+                                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_quick_replies_list');
 
                             }
 
@@ -458,7 +458,7 @@ class Csv {
             'crm_chatbot_quick_replies',
             '*',
             array(
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -518,7 +518,7 @@ class Csv {
             'crm_chatbot_numbers',
             '*',
             array(
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -578,7 +578,7 @@ class Csv {
             'crm_chatbot_emails',
             '*',
             array(
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -638,7 +638,7 @@ class Csv {
 
         // Set where
         $where = array(
-            'crm_chatbot_websites_guests.user_id' => $this->CI->user_id
+            'crm_chatbot_websites_guests.user_id' => md_the_user_id()
         );      
 
         // Set where in
@@ -655,7 +655,7 @@ class Csv {
                     'crm_chatbot_websites',
                     '*',
                     array(
-                        'user_id' => $this->CI->user_id
+                        'user_id' => md_the_user_id()
                     )
 
                 );
@@ -670,7 +670,7 @@ class Csv {
                     foreach ( $the_websites_list as $the_website ) {
 
                         // Verify if the website is allowed
-                        if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
+                        if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_website['website_id']) ) {
                             continue;
                         }
 

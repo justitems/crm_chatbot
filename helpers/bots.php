@@ -305,7 +305,7 @@ class Bots {
                     '*',
                     array(
                         'bot_id' => $bot,
-                        'user_id' => $this->CI->user_id
+                        'user_id' => md_the_user_id()
                     )
                 );
 
@@ -329,7 +329,7 @@ class Bots {
                             echo json_encode($data);
                             
                             // Delete the user's cache
-                            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_bots_list');
+                            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_bots_list');
 
                             // Get team's member
                             $member = the_crm_current_team_member();
@@ -368,7 +368,7 @@ class Bots {
                                 // Create the activity
                                 create_crm_activity(
                                     array(
-                                        'user_id' => $this->CI->user_id,
+                                        'user_id' => md_the_user_id(),
                                         'activity_type' => 'crm_chatbot',
                                         'for_id' => $bot, 
                                         'metas' => $metas
@@ -409,7 +409,7 @@ class Bots {
                             echo json_encode($data);         
                             
                             // Delete the user's cache
-                            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_bots_list');
+                            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_bots_list');
 
                             // Get team's member
                             $member = the_crm_current_team_member();
@@ -448,7 +448,7 @@ class Bots {
                                 // Create the activity
                                 create_crm_activity(
                                     array(
-                                        'user_id' => $this->CI->user_id,
+                                        'user_id' => md_the_user_id(),
                                         'activity_type' => 'crm_chatbot',
                                         'for_id' => $bot, 
                                         'metas' => $metas

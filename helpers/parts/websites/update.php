@@ -89,7 +89,7 @@ class Update {
             '*',
             array(
                 'website_id' => $params['website'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -260,7 +260,7 @@ class Update {
             '*',
             array(
                 'website_id' => $params['website'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -354,7 +354,7 @@ class Update {
                         if ( is_numeric(trim($option[strip_tags(trim(key($option)))])) ) {
 
                             // Get the media
-                            $the_media = $this->CI->base_model->the_data_where('medias', '*', array('media_id' => trim($option[strip_tags(trim(key($option)))]), 'user_id' => $this->CI->user_id) );
+                            $the_media = $this->CI->base_model->the_data_where('medias', '*', array('media_id' => trim($option[strip_tags(trim(key($option)))]), 'user_id' => md_the_user_id()) );
 
                             // Verify if the user has the media
                             if ( !$the_media ) {
@@ -580,7 +580,7 @@ class Update {
                 }
 
                 // Verify if the category exists
-                if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => $this->CI->user_id ) ) ) {
+                if ( $this->CI->base_model->the_data_where('crm_chatbot_categories', '*', array('category_id' => $category, 'user_id' => md_the_user_id() ) ) ) {
 
                     // Save the category
                     if ( $this->CI->base_model->insert('crm_chatbot_websites_categories', array('website_id' => $params['website'], 'category_id' => $category) ) ) {
@@ -650,7 +650,7 @@ class Update {
                     // Create the activity
                     create_crm_activity(
                         array(
-                            'user_id' => $this->CI->user_id,
+                            'user_id' => md_the_user_id(),
                             'activity_type' => 'crm_chatbot',
                             'for_id' => $params['website'], 
                             'metas' => $metas
@@ -659,8 +659,8 @@ class Update {
                     );
 
                     // Delete the user's cache
-                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
-                    delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_list');
+                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
+                    delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_list');
 
                 }
 

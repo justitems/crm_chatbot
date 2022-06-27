@@ -81,7 +81,7 @@ class Media {
             }
 
             // Get user's plan
-            $user_plan = md_the_user_option($this->CI->user_id, 'plan');
+            $user_plan = md_the_user_option(md_the_user_id(), 'plan');
 
             // Verify if user's plan exists
             if ( !$user_plan ) {
@@ -139,7 +139,7 @@ class Media {
             }
 
             // Get user storage
-            $user_storage = md_the_user_option($this->CI->user_id, 'user_storage');
+            $user_storage = md_the_user_option(md_the_user_id(), 'user_storage');
 
             // Temporary storage
             $temp_storage = ($user_storage?$user_storage:0);
@@ -272,7 +272,7 @@ class Media {
             }
 
             // Get user's plan
-            $user_plan = md_the_user_option($this->CI->user_id, 'plan');
+            $user_plan = md_the_user_option(md_the_user_id(), 'plan');
 
             // Verify if user's plan exists
             if ( !$user_plan ) {
@@ -330,7 +330,7 @@ class Media {
             }
 
             // Get user storage
-            $user_storage = md_the_user_option($this->CI->user_id, 'user_storage');
+            $user_storage = md_the_user_option(md_the_user_id(), 'user_storage');
 
             // Temporary storage
             $temp_storage = ($user_storage?$user_storage:0);
@@ -461,7 +461,7 @@ class Media {
                     'medias',
                     '*',
                     array(
-                        'user_id' => $this->CI->user_id
+                        'user_id' => md_the_user_id()
                     ),
                     array(
                         'media_id', $media_ids
@@ -552,7 +552,7 @@ class Media {
                     'medias',
                     '*',
                     array(
-                        'user_id' => $this->CI->user_id
+                        'user_id' => md_the_user_id()
                     ),
                     array(
                         'media_id', $media_ids
@@ -635,7 +635,7 @@ class Media {
             }
 
             // Get user's plan
-            $user_plan = md_the_user_option($this->CI->user_id, 'plan');
+            $user_plan = md_the_user_option(md_the_user_id(), 'plan');
 
             // Verify if user's plan exists
             if ( !$user_plan ) {
@@ -693,7 +693,7 @@ class Media {
             }
 
             // Get user storage
-            $user_storage = md_the_user_option($this->CI->user_id, 'user_storage');
+            $user_storage = md_the_user_option(md_the_user_id(), 'user_storage');
 
             // Temporary storage
             $temp_storage = ($user_storage?$user_storage:0);
@@ -802,7 +802,7 @@ class Media {
             }
 
             // Get user's plan
-            $user_plan = md_the_user_option($this->CI->user_id, 'plan');
+            $user_plan = md_the_user_option(md_the_user_id(), 'plan');
 
             // Verify if user's plan exists
             if ( !$user_plan ) {
@@ -860,7 +860,7 @@ class Media {
             }
 
             // Get user storage
-            $user_storage = md_the_user_option($this->CI->user_id, 'user_storage');
+            $user_storage = md_the_user_option(md_the_user_id(), 'user_storage');
 
             // Temporary storage
             $temp_storage = ($user_storage?$user_storage:0);

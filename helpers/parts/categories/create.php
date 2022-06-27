@@ -110,7 +110,7 @@ class Create {
 
         // Prepare the category
         $category_params = array(
-            'user_id' => $this->CI->user_id,
+            'user_id' => md_the_user_id(),
             'category_name' => trim($params['category_name']),
             'created' => time()
         );
@@ -135,7 +135,7 @@ class Create {
         if ( $category_id ) {
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_categories_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_categories_list');
 
             // Verify if member's name exists
             if ( isset($member['member_name']) ) {
@@ -171,7 +171,7 @@ class Create {
                 // Create the activity
                 create_crm_activity(
                     array(
-                        'user_id' => $this->CI->user_id,
+                        'user_id' => md_the_user_id(),
                         'activity_type' => 'crm_chatbot',
                         'for_id' => $category_id, 
                         'metas' => $metas
@@ -180,7 +180,7 @@ class Create {
                 );
 
                 // Delete the user's cache
-                delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list');
+                delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list');
 
             }
 

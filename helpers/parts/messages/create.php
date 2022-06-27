@@ -109,7 +109,7 @@ class Create {
             '*',
             array(
                 'thread_id' => $params['thread'],
-                'user_id' => $this->CI->user_id
+                'user_id' => md_the_user_id()
             )
         );
 
@@ -153,7 +153,7 @@ class Create {
         if ( $this->CI->session->userdata( 'member' ) ) {
 
             // Verify if the website is allowed
-            if ( !the_crm_team_roles_multioptions_list_item($this->CI->user_id,  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
+            if ( !the_crm_team_roles_multioptions_list_item(md_the_user_id(),  $member['role_id'], 'crm_chatbot_allowed_websites', $the_thread[0]['website_id']) ) {
 
                 // Prepare the false response
                 return array(
@@ -173,7 +173,7 @@ class Create {
 
         // Prepare the message
         $message_params = array(
-            'user_id' => $this->CI->user_id,
+            'user_id' => md_the_user_id(),
             'guest_id' => 0,
             'thread_id' => $params['thread'],
             'message_body' => $params['message'],
@@ -204,7 +204,7 @@ class Create {
                     if ( is_numeric($attachment) ) {
 
                         // Verify if the user has this attachment
-                        if ( $this->CI->base_model->the_data_where('medias', '*', array('media_id' => $attachment, 'user_id' => $this->CI->user_id) ) ) {
+                        if ( $this->CI->base_model->the_data_where('medias', '*', array('media_id' => $attachment, 'user_id' => md_the_user_id()) ) ) {
 
                             // Prepare the attachment
                             $attachment_params = array(
@@ -230,7 +230,7 @@ class Create {
             );
 
             // Delete the user's cache
-            delete_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_websites_threads_list');
+            delete_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_websites_threads_list');
 
             // Return success response
             return $data;             
@@ -317,69 +317,6 @@ class Create {
 
                     // Save the guest's timezone
                     update_crm_chatbot_websites_guests_meta($the_guest, 'guest_timezone', $params['timezone']);                    
-
-                }
-
-            }
-
-            // Verify if the ip2location is enabled
-            if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
-
-                // Verify if api key exists
-                if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
-
-                    // Get guest information
-                    $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $this->CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
-
-                    // Verify if response key exists
-                    if ( !empty($the_guest_info['response']) ) {
-
-                        // Verify if response value is OK
-                        if ( $the_guest_info['response'] === 'OK' ) {
-
-                            // Verify if latitude exists
-                            if ( !empty($the_guest_info['latitude']) ) {
-
-                                // Save the latitude
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_latitude', $the_guest_info['latitude']); 
-
-                            }
-
-                            // Verify if longitude exists
-                            if ( !empty($the_guest_info['longitude']) ) {
-
-                                // Save the longitude
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_longitude', $the_guest_info['longitude']); 
-
-                            }
-                            
-                            // Verify if country code exists
-                            if ( !empty($the_guest_info['country_code']) ) {
-
-                                // Save the country code
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_country_code', $the_guest_info['country_code']); 
-
-                            }
-                            
-                            // Verify if country name exists
-                            if ( !empty($the_guest_info['country_name']) ) {
-
-                                // Save the country name
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_country_name', $the_guest_info['country_name']); 
-
-                            }
-                            
-                            // Verify if city name exists
-                            if ( !empty($the_guest_info['city_name']) ) {
-
-                                // Save the city name
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_city_name', $the_guest_info['city_name']); 
-
-                            }                             
-
-                        }
-
-                    }
 
                 }
 
@@ -525,6 +462,74 @@ class Create {
 
             // Update the thread
             $this->CI->base_model->update('crm_chatbot_websites_threads', array('thread_id' => $thread_id), array('updated' => time()));
+
+        }
+
+        // Verify if the guest don't has saved the latitude
+        if ( !the_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude') ) {
+
+            // Verify if the ip2location is enabled
+            if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
+
+                // Verify if api key exists
+                if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
+
+                    // Get guest information
+                    $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $this->CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
+
+                    // Verify if response key exists
+                    if ( !empty($the_guest_info['response']) ) {
+
+                        // Verify if response value is OK
+                        if ( $the_guest_info['response'] === 'OK' ) {
+
+                            // Verify if latitude exists
+                            if ( !empty($the_guest_info['latitude']) ) {
+
+                                // Save the latitude
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude', $the_guest_info['latitude']); 
+
+                            }
+
+                            // Verify if longitude exists
+                            if ( !empty($the_guest_info['longitude']) ) {
+
+                                // Save the longitude
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude', $the_guest_info['longitude']); 
+
+                            }
+                            
+                            // Verify if country code exists
+                            if ( !empty($the_guest_info['country_code']) ) {
+
+                                // Save the country code
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_code', $the_guest_info['country_code']); 
+
+                            }
+                            
+                            // Verify if country name exists
+                            if ( !empty($the_guest_info['country_name']) ) {
+
+                                // Save the country name
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_name', $the_guest_info['country_name']); 
+
+                            }
+                            
+                            // Verify if city name exists
+                            if ( !empty($the_guest_info['city_name']) ) {
+
+                                // Save the city name
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_city_name', $the_guest_info['city_name']); 
+
+                            }                             
+
+                        }
+
+                    }
+
+                }
+
+            }
 
         }
 
@@ -875,7 +880,7 @@ class Create {
                 // Return error response
                 return array(
                     'success' => FALSE,
-                    'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent') . '3'
+                    'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent')
                 ); 
                 
             }
@@ -900,69 +905,6 @@ class Create {
 
                     // Save the guest's timezone
                     update_crm_chatbot_websites_guests_meta($the_guest, 'guest_timezone', $params['timezone']);                    
-
-                }
-
-            }
-        
-            // Verify if the ip2location is enabled
-            if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
-
-                // Verify if api key exists
-                if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
-
-                    // Get guest information
-                    $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $this->CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
-
-                    // Verify if response key exists
-                    if ( !empty($the_guest_info['response']) ) {
-
-                        // Verify if response value is OK
-                        if ( $the_guest_info['response'] === 'OK' ) {
-
-                            // Verify if latitude exists
-                            if ( !empty($the_guest_info['latitude']) ) {
-
-                                // Save the latitude
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_latitude', $the_guest_info['latitude']); 
-
-                            }
-
-                            // Verify if longitude exists
-                            if ( !empty($the_guest_info['longitude']) ) {
-
-                                // Save the longitude
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_longitude', $the_guest_info['longitude']); 
-
-                            }
-                            
-                            // Verify if country code exists
-                            if ( !empty($the_guest_info['country_code']) ) {
-
-                                // Save the country code
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_country_code', $the_guest_info['country_code']); 
-
-                            }
-                            
-                            // Verify if country name exists
-                            if ( !empty($the_guest_info['country_name']) ) {
-
-                                // Save the country name
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_country_name', $the_guest_info['country_name']); 
-
-                            }
-                            
-                            // Verify if city name exists
-                            if ( !empty($the_guest_info['city_name']) ) {
-
-                                // Save the city name
-                                update_crm_chatbot_websites_guests_meta($the_guest, 'guest_city_name', $the_guest_info['city_name']); 
-
-                            }                             
-
-                        }
-
-                    }
 
                 }
 
@@ -1179,6 +1121,74 @@ class Create {
 
         // Try to send the message
         if ( $message_id ) {
+
+            // Verify if the guest don't has saved the latitude
+            if ( !the_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude') ) {
+
+                // Verify if the ip2location is enabled
+                if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
+
+                    // Verify if api key exists
+                    if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
+
+                        // Get guest information
+                        $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $this->CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
+
+                        // Verify if response key exists
+                        if ( !empty($the_guest_info['response']) ) {
+
+                            // Verify if response value is OK
+                            if ( $the_guest_info['response'] === 'OK' ) {
+
+                                // Verify if latitude exists
+                                if ( !empty($the_guest_info['latitude']) ) {
+
+                                    // Save the latitude
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude', $the_guest_info['latitude']); 
+
+                                }
+
+                                // Verify if longitude exists
+                                if ( !empty($the_guest_info['longitude']) ) {
+
+                                    // Save the longitude
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude', $the_guest_info['longitude']); 
+
+                                }
+                                
+                                // Verify if country code exists
+                                if ( !empty($the_guest_info['country_code']) ) {
+
+                                    // Save the country code
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_code', $the_guest_info['country_code']); 
+
+                                }
+                                
+                                // Verify if country name exists
+                                if ( !empty($the_guest_info['country_name']) ) {
+
+                                    // Save the country name
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_name', $the_guest_info['country_name']); 
+
+                                }
+                                
+                                // Verify if city name exists
+                                if ( !empty($the_guest_info['city_name']) ) {
+
+                                    // Save the city name
+                                    update_crm_chatbot_websites_guests_meta($guest_id, 'guest_city_name', $the_guest_info['city_name']); 
+
+                                }                             
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
 
             // Found array
             $found_numbers = array();
@@ -1522,7 +1532,7 @@ class Create {
             // Return error response
             return array(
                 'success' => FALSE,
-                'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent') . '5'
+                'message' => $this->CI->lang->line('crm_chatbot_message_was_not_sent')
             ); 
             
         }

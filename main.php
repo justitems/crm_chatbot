@@ -17,7 +17,7 @@ namespace CmsBase\User\Apps\Collection\Crm_chatbot;
 // Define the constants
 defined('BASEPATH') OR exit('No direct script access allowed');
 defined('CMS_BASE_USER_APPS_CRM_CHATBOT') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT', CMS_BASE_USER . 'apps/collection/crm_chatbot/');
-defined('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION', '0.0.4');
+defined('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION') OR define('CMS_BASE_USER_APPS_CRM_CHATBOT_VERSION', '0.1.2');
 
 // Define the namespaces to use
 use CmsBase\User\Interfaces as CmsBaseUserInterfaces;
@@ -173,8 +173,11 @@ class Main implements CmsBaseUserInterfaces\Apps {
      */
     public function load_hooks( $category, $static_slug=NULL, $dynamic_slug=NULL ) {
 
+        // Set action
+        $action = $this->CI->input->post('action', TRUE)?$this->CI->input->post('action', TRUE):'';
+
         // Verify if action parameter exists
-        if ( substr($this->CI->input->post('action', TRUE), 0, 12) === 'crm_chatbot' ) {
+        if ( substr($action, 0, 12) === 'crm_chatbot' ) {
 
             // Set loaded app
             md_set_data('loaded_app', 'crm_chatbot');
@@ -183,13 +186,6 @@ class Main implements CmsBaseUserInterfaces\Apps {
 
         // Register the hooks by category
         switch ( $category ) {
-
-            case 'init':
-
-                // Require the CHATBOT Init Inc file
-                //require_once CMS_BASE_USER_APPS_CRM_CHATBOT . 'inc/chatbot_init.php';
-
-                break;
 
             case 'admin_init':
 
@@ -230,7 +226,7 @@ class Main implements CmsBaseUserInterfaces\Apps {
             case 'user_init':
 
                 // Load code only for CRM Apps
-                if ( (md_the_data('loaded_app') === 'crm_apps') || (substr($this->CI->input->post('action', TRUE), 0, 13) === 'crm_dashboard') ) {
+                if ( (md_the_data('loaded_app') === 'crm_apps') || (substr($action, 0, 13) === 'crm_dashboard') ) {
 
                     // Load the app's language file
                     $this->CI->lang->load('crm_chatbot_app', $this->CI->config->item('language'), FALSE, TRUE, CMS_BASE_USER_APPS_CRM_CHATBOT);

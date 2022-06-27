@@ -106,16 +106,16 @@ class Activities {
                 ));
 
                 // Verify if the cache exists for this query
-                if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_chatbot_activities_' . $parameters_string) ) {
+                if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_chatbot_activities_' . $parameters_string) ) {
 
                     // Get activities
-                    $get_activities = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_chatbot_activities_' . $parameters_string);
+                    $get_activities = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_chatbot_activities_' . $parameters_string);
 
                 } else {
 
                     // Set where parameters
                     $where = array(
-                        'crm_activities.user_id' => $this->CI->user_id,
+                        'crm_activities.user_id' => md_the_user_id(),
                         'crm_activities.activity_type' => 'crm_chatbot'
                     );
 
@@ -141,10 +141,10 @@ class Activities {
                     );
 
                     // Save cache
-                    md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_chatbot_activities_' . $parameters_string, $get_activities);
+                    md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_chatbot_activities_' . $parameters_string, $get_activities);
 
                     // Set saved cronology
-                    update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list', 'crm_chatbot_user_' . $this->CI->user_id . '_chatbot_activities_' . $parameters_string);
+                    update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list', 'crm_chatbot_user_' . md_the_user_id() . '_chatbot_activities_' . $parameters_string);
 
                 }
 
@@ -152,10 +152,10 @@ class Activities {
                 if ( $get_activities ) {
 
                     // Verify if the cache exists for this query
-                    if ( md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_' . $parameters_string . '_total_activities_list_number') ) {
+                    if ( md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_' . $parameters_string . '_total_activities_list_number') ) {
 
                         // Get total activities
-                        $get_total = md_the_cache('crm_chatbot_user_' . $this->CI->user_id . '_' . $parameters_string . '_total_activities_list_number');
+                        $get_total = md_the_cache('crm_chatbot_user_' . md_the_user_id() . '_' . $parameters_string . '_total_activities_list_number');
 
                     } else {
 
@@ -176,17 +176,32 @@ class Activities {
                         );
 
                         // Save cache
-                        md_create_cache('crm_chatbot_user_' . $this->CI->user_id . '_' . $parameters_string . '_total_activities_list_number', $get_total);
+                        md_create_cache('crm_chatbot_user_' . md_the_user_id() . '_' . $parameters_string . '_total_activities_list_number', $get_total);
 
                         // Set saved cronology
-                        update_crm_cache_cronology_for_user($this->CI->user_id, 'crm_chatbot_activities_list', 'crm_chatbot_user_' . $this->CI->user_id . '_' . $parameters_string . '_total_activities_list_number');
+                        update_crm_cache_cronology_for_user(md_the_user_id(), 'crm_chatbot_activities_list', 'crm_chatbot_user_' . md_the_user_id() . '_' . $parameters_string . '_total_activities_list_number');
+
+                    }
+
+                    // All activities container
+                    $all_activities = array();
+
+                    // List the activities
+                    foreach ( $get_activities as $get_activity ) {
+
+                        // Add activity to the container
+                        $all_activities[] = array(
+                            'activity_id' => $get_activity['activity_id'],
+                            'title' => $get_activity['title'],
+                            'created' => md_the_user_time(md_the_user_id(), $get_activity['created'])
+                        );
 
                     }
 
                     // Prepare success response
                     $data = array(
                         'success' => TRUE,
-                        'activities' => $get_activities,
+                        'activities' => $all_activities,
                         'total' => $get_total[0]['total'], 
                         'page' => ($page + 1),
                         'current_time' => time()
@@ -255,7 +270,7 @@ class Activities {
                     'crm_activities.*, crm_activities_meta.meta_value as title, content.meta_value actions',
                     array(
                         'crm_activities.activity_id' => $activity,
-                        'crm_activities.user_id' => $this->CI->user_id,
+                        'crm_activities.user_id' => md_the_user_id(),
                         'crm_activities.activity_type' => 'crm_chatbot'
                     ),
                     array(),

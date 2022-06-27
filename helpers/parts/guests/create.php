@@ -156,6 +156,74 @@ class Create {
             
         }
 
+        // Verify if the guest don't has saved the latitude
+        if ( !the_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude') ) {
+
+            // Verify if the ip2location is enabled
+            if ( md_the_option('app_crm_chatbot_ip2location_enabled') ) {
+
+                // Verify if api key exists
+                if ( md_the_option('app_crm_chatbot_ip2location_api_key') ) {
+
+                    // Get guest information
+                    $the_guest_info = json_decode(file_get_contents('https://api.ip2location.com/v2/?ip=' . $this->CI->input->ip_address() . '&key=' . md_the_option('app_crm_chatbot_ip2location_api_key') . '&package=WS25'), TRUE);
+
+                    // Verify if response key exists
+                    if ( !empty($the_guest_info['response']) ) {
+
+                        // Verify if response value is OK
+                        if ( $the_guest_info['response'] === 'OK' ) {
+
+                            // Verify if latitude exists
+                            if ( !empty($the_guest_info['latitude']) ) {
+
+                                // Save the latitude
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_latitude', $the_guest_info['latitude']); 
+
+                            }
+
+                            // Verify if longitude exists
+                            if ( !empty($the_guest_info['longitude']) ) {
+
+                                // Save the longitude
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_longitude', $the_guest_info['longitude']); 
+
+                            }
+                            
+                            // Verify if country code exists
+                            if ( !empty($the_guest_info['country_code']) ) {
+
+                                // Save the country code
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_code', $the_guest_info['country_code']); 
+
+                            }
+                            
+                            // Verify if country name exists
+                            if ( !empty($the_guest_info['country_name']) ) {
+
+                                // Save the country name
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_country_name', $the_guest_info['country_name']); 
+
+                            }
+                            
+                            // Verify if city name exists
+                            if ( !empty($the_guest_info['city_name']) ) {
+
+                                // Save the city name
+                                update_crm_chatbot_websites_guests_meta($guest_id, 'guest_city_name', $the_guest_info['city_name']); 
+
+                            }                             
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
         // Verify if the name exists
         if ( empty($params['name']) && the_crm_chatbot_websites_meta($params['website']['website_id'], 'guest_name') ) {
 
