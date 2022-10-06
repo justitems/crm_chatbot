@@ -1,5 +1,5 @@
 {
-    "version": "Version 0.1.3",
-    "changelogs": "<p>Was added support for the user time zone.<\/p><p>Was added support for PHP 8.0+.<\/p><p>Was fixed a bug in the guest page.<\/p>",
-    "url": "https://drive.google.com/uc?export=download&id=1ZcdzmUi-QUIo4zkaflTkbDlLU6PtQRk9"
+    "version": "Version 0.1.4",
+    "changelogs": "<p>Were updated some js and css links.<\/p>",
+    "url": "https://drive.google.com/uc?export=download&id=1Hjv5wVuNvL3bIL9tJ4VKcA3ebA-TEOuC"
 }
