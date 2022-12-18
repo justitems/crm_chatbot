@@ -86,10 +86,6 @@
 
 <p>This app has a registered copyright. Please read the license.</p>
 
-<h4>Support</h4>
-
-<p>We're providing support only for bugs reported in our demo. You could get paid support here https://www.midrub.com/plans for the bugs discovered in your website.</p>
-
 <br>
 
 <h4>Updates</h4>
